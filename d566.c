@@ -27,21 +27,16 @@ int main() {
 				continue;
 			if (strcmp(status[i], "AC") == 0) { 
 				ACfirst++;
-				printf("ACfirst : %s\n", name[i]);
 			} else {
 				for (j = i - 1; j >= 0; j--) 
 					if (strcmp(name[i], name[j]) == 0 && strcmp(status[j], "AC") == 0) { 
 						AC++;
-						printf("AC : %s\n", name[i]);
 						break;
 					}
 			}
 			nameArray[point] = i;
 			point++;	
 		}
-		for (i = 0; i < point; i++) 
-			printf("%s\n", name[nameArray[i]]);
-		printf("%d %d\n", AC, ACfirst);
 		printf("%d%%\n", 100 * ACfirst / (AC + ACfirst));
 	}
 	return 0;
