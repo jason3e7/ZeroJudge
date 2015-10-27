@@ -54,3 +54,4 @@ int main() {
 }
 
 // test has wrong, but submit it work. WHY?
+// newLine or not newLine
