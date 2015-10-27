@@ -8,23 +8,20 @@
 #include <string.h>
 
 int main() {
-	char bin[6], line[1000], output[1000], outCount;
+	char bin[6], line[1000];
 	int i, len, flag, locate;
 	while(scanf(" %[^\n]", &line) != EOF) {
-		for (i = 0; i < 1000; i++)
-			output[i] = '\0';
 		for (i = 0; i < 5; i++) {
+			printf("%c", line[i]);
 			bin[i] = line[i];
-			output[i] = line[i];
 		}
-		outCount = 5;
+		bin[5] = '\0';
 		locate = 0;
 		len = strlen(line);
 		for (i = 5; i < len; i++) {
 			if (line[i] != ' ') {
 				if (line[i] == '1' || line[i] == '0') {
-					output[outCount] = line[i];
-					outCount++;
+					printf("%c", line[i]);
 					if (flag == 1) {
 						if (bin[locate] == '1' && line[i] == '1')
 							bin[locate] = '1';
@@ -38,23 +35,19 @@ int main() {
 					}
 					locate++;
 				} else if (line[i] == 'a'){
-					output[outCount] = '&';
-					output[outCount + 1] = '&';
-					outCount += 2;
+					printf("&&");
 					i += 2;
 					flag = 1;
 					locate = 0;
 				} else if (line[i] == 'o') {
-					output[outCount] = '|';
-					output[outCount + 1] = '|';
-					outCount += 2;
+					printf("||");
 					i += 1;
 					flag = 2;
 					locate = 0;
 				}
 			}
 		}
-		printf("%s = %s\n", output, bin);
+		printf(" = %s\n", bin);
 	}
 	return 0;
 }
