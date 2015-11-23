@@ -1,63 +1,86 @@
 /*
  * @file d286.c
  * @author Jason3e7
- * @algorithm backtracking
+ * @algorithm backtracking, DFS
  * @date 201511092333
  */
 
 #include <stdio.h>
 
-int lines[101][101], points[101];
+int lines[101][101], points[101], n, maxPoint[101], maxCount;
 
-void setColor() {
-	if (allSet()) {
-		return blockNum();
-	}
+void setColor(int num, int tempCount) {
 	int i;
+	if (num > n) {
+		if (tempCount > maxCount) {
+			maxCount = tempCount;
+			for (i = 1; i <= n; i++) 
+				maxPoint[i] = points[i];
+		}
+		return;
+	}
+
+	if (n - num + 1 + tempCount <= maxCount)
+		return;
+
+	if (points[num] != 0)
+		setColor(num + 1, tempCount);
+
+	int canSetBlack = 1;
 	for (i = 1; i <= n; i++) {
-		if (points[i] == 0) {
-			points[i] = 1;
-			setColor();
-			points[i] = 0;
+		if (lines[num][i] == 1) { 
+			if (points[i] == 1) {
+				canSetBlack = 0; 
+				break;
+			}
 		}
 	}
+
+	if (canSetBlack == 1) {
+		points[num] = 1;
+		for (i = 1; i <= n; i++) 
+			if (lines[num][i] == 1) 
+				points[i] = 2;
+		setColor(num + 1, tempCount + 1);
+	}
+
+	points[num] = 2;
+	setColor(num + 1, tempCount);
+	
+	points[num] = 0;
 }
-
-
 
 int main() {
-	int t, n, k, i, j, pointA, pointB;
-	while(scanf("%d", &t) != EOF) 
-		while(t--) 
-			while(scanf("%d %d", &n, &k) != EOF) {
-				for (i = 1; i <= n; i++) {
-					points[i] = 0;
-					for (j = 1; j <= n; j++)
-						lines[i][j] = 0;
+	int t, k, i, j, pointA, pointB, fOut;
+	scanf("%d", &t);
+	while(t--) {
+		scanf("%d %d", &n, &k); 
+		for (i = 1; i <= n; i++) {
+			points[i] = 0;
+			for (j = 1; j <= n; j++)
+				lines[i][j] = 0;
+		}
+
+		for (i = 0; i < k; i++) {
+			scanf("%d %d", &pointA, &pointB);
+			lines[pointA][pointB] = 1;
+			lines[pointB][pointA] = 1;
+		}
+		maxCount = 0;
+		setColor(1, 0);
+		printf("%d\n", maxCount);
+		fOut = 1;
+		for (i = 1; i <= n; i++) {
+			if (maxPoint[i] == 1) {
+				if (fOut == 1) {
+					printf("%d", i);
+					fOut = 0;
+				} else { 
+					printf(" %d", i);
 				}
-
-				for (i = 0; i < k; i++) {
-					scanf("%d %d", &pointA, &pointB);
-					lines[pointA][pointB] = 1;
-					lines[pointB][pointA] = 1;
-				}
-				
-					
-
-
-
 			}
-
+		}
+		printf("\n", i);
+	}
 	return 0;
 }
-
-
-/*
-		for (i = 1; i <= n; i++) {
-			for (j = 1; j <= m; j++) 
-				printf("%d ", field[i][j]);
-			printf("\n");
-		}
-		
-		printf("Count : %d\n", getCount(3, 1));
-*/
