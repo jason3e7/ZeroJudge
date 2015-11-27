@@ -6,64 +6,63 @@
   */
 
 #include <stdio.h>
-#define max 10001
 
-int m, lines[max], maxLine, length, flag;
+int m, lines[21], isUse[21], length, find, ans[4];
 
-void DFS(int lineSum) {
-	if (flag == 1)
+void DFS(int lineCount) {
+
+	if (ans[lineCount] > length || find == 1)
 		return;
-	if (lineSum == length) {
-		flag = 1;
+	if (ans[lineCount] == length)
+		lineCount++;
+	if (lineCount == 3) {
+		find = 1;
 		return;
 	}
-
-	int i = length - lineSum;
-	if (i > maxLine)
-		i = maxLine;
-
-	for (; i >= 1; i--) {
-		if (lines[i] > 0) {
-			lines[i]--;
-			DFS(lineSum + i);	
-			break;
+	int i;
+	for (i = 0; i < m; i++) {
+		if (isUse[i] == 0) {
+			isUse[i]++;
+			ans[lineCount] += lines[i];
+			DFS(lineCount);
+			ans[lineCount] -= lines[i];
+			isUse[i]--;
 		}
 	}
 	return;
 }
 
 int main() {
-	int n, i, temp, sum;
+	int n, i, temp, sum, maxLocal;
 	scanf("%d", &n);
 	while(n--) {
 		sum = 0;
-		maxLine = 0;
-		for (i = 0; i < max; i++)
+		maxLocal = 0;
+		for (i = 0; i < 21; i++) {
 			lines[i] = 0;
+			isUse[i] = 0;
+		}
+		for (i = 0; i < 4; i++)
+			ans[i] = 0;
 
 		scanf("%d", &m);
 		for (i = 0; i < m; i++) {
-			scanf("%d", &temp);
-			lines[temp]++;
-			sum += temp;
-			if (temp > maxLine) 
-				maxLine = temp;
+			scanf("%d", &lines[i]);
+			sum += lines[i];
+			if (lines[i] > lines[maxLocal]) 
+				maxLocal = i;
 		}	
 
 		length = sum / 4;
-		flag = 0;
-		if ((sum % 4) == 0 && length >= maxLine) {
-			for (i = 0; i < 4; i++) {
-				flag = 0;
-				DFS(0);
-				if (flag == 0)
-					break;
-			}	
+		find = 0;
+		if ((sum % 4) == 0 && length >= lines[maxLocal]) {
+			isUse[maxLocal]++;
+			ans[0] = lines[maxLocal];
+			DFS(0);
 		}
-
-		if (flag == 1)
+		if (find == 1)
 			printf("yes\n");
-		else
+		else 
 			printf("no\n");
 	}
 	return 0;
