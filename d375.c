@@ -8,25 +8,25 @@
 #include <stdio.h>
 #define max 10001
 
-int m, lines[max], maxLine, length, find, ans[4];
+int m, lines[max], maxLine, length, flag;
 
-void DFS(int numCount, int lineCount) {
-	int i;
-	if (ans[lineCount] > length || find == 1) 
+void DFS(int lineSum) {
+	if (flag == 1)
 		return;
-	if (ans[lineCount] == length)
-		lineCount++;
-	if (numCount == m && lineCount == 4) {
-		find = 1;	
+	if (lineSum == length) {
+		flag = 1;
 		return;
 	}
-	for (i = maxLine; i >= 1; i--) {
+
+	int i = length - lineSum;
+	if (i > maxLine)
+		i = maxLine;
+
+	for (; i >= 1; i--) {
 		if (lines[i] > 0) {
 			lines[i]--;
-			ans[lineCount] += i;
-			DFS(numCount + 1, lineCount);
-			ans[lineCount] -= i;
-			lines[i]++;
+			DFS(lineSum + i);	
+			break;
 		}
 	}
 	return;
@@ -40,9 +40,6 @@ int main() {
 		maxLine = 0;
 		for (i = 0; i < max; i++)
 			lines[i] = 0;
-		for (i = 0; i < 4; i++)
-			ans[i] = 0;
-		find = 0;
 
 		scanf("%d", &m);
 		for (i = 0; i < m; i++) {
@@ -52,13 +49,19 @@ int main() {
 			if (temp > maxLine) 
 				maxLine = temp;
 		}	
-		length = sum / 4;
-		printf("length: %d  ", length);
-		printf("can mod 4: %d\n", sum % 4);
-		if ((sum % 4) == 0 && length >= maxLine)
-			DFS(0, 0);
 
-		if (find == 1)
+		length = sum / 4;
+		flag = 0;
+		if ((sum % 4) == 0 && length >= maxLine) {
+			for (i = 0; i < 4; i++) {
+				flag = 0;
+				DFS(0);
+				if (flag == 0)
+					break;
+			}	
+		}
+
+		if (flag == 1)
 			printf("yes\n");
 		else
 			printf("no\n");
