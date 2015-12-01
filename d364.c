@@ -6,6 +6,9 @@
   */
 
 #include <stdio.h>
+#include <sys/time.h>
+
+struct timeval stop, start;
 
 int s, t, isUse[25], num[31];
 int prime[25] = {
@@ -72,8 +75,13 @@ int main() {
 				num[j] = 0;
 			printf("Case %d:\n", i);
 			scanf("%d %d", &s, &t);
+			gettimeofday(&start, NULL);
 			DFS(1, 0, 0);
+			gettimeofday(&stop, NULL);
+			printf("took %lu\n", stop.tv_usec - start.tv_usec);
 		}
 	}
 	return 0;
 }
+// test case
+// 1 100 30
