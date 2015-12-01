@@ -52,7 +52,6 @@ void setFlag(int n, int flag) {
 void DFS(int begin, int numCount, int sum) {
 	int i, j;
 	if (numCount == t) {
-		//printf("%d %d %d\n", begin, numCount, sum);
 		if (sum == s) {
 			for (i = 0; i < numCount; i++) {
 				if ((i + 1) < numCount)
@@ -63,7 +62,7 @@ void DFS(int begin, int numCount, int sum) {
 		}
 		return;
 	}
-	for (i = begin; i <= s; i++) {
+	for (i = begin; i <= (s - sum); i++) {
 		if (checkUse(i) == 0) {
 			num[numCount] = i;
 			setFlag(i, 1);
@@ -93,5 +92,7 @@ int main() {
 	}
 	return 0;
 }
+
 // test case
+// 1 60 8
 // 1 100 30
