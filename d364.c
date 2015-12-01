@@ -6,17 +6,6 @@
   */
 
 #include <stdio.h>
-#include <sys/time.h>
-
-struct timeval stop, start;
-
-long timevaldiff(struct timeval *starttime, struct timeval *finishtime) {
-	long msec;
-	msec=(finishtime->tv_sec-starttime->tv_sec)*1000;
-	msec+=(finishtime->tv_usec-starttime->tv_usec)/1000;
-	return msec;
-}
-
 
 int s, t, isUse[25], num[31];
 int prime[25] = {
@@ -83,11 +72,7 @@ int main() {
 				num[j] = 0;
 			printf("Case %d:\n", i);
 			scanf("%d %d", &s, &t);
-			gettimeofday(&start, NULL);
 			DFS(1, 0, 0);
-			gettimeofday(&stop, NULL);
-			long msec = timevaldiff(&start, &stop);
-			printf("Elapsed time for sleep(1) is: %d milliseconds.\n", msec);
 		}
 	}
 	return 0;
