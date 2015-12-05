@@ -10,18 +10,6 @@
 
 int initX, initY, map[chessSize][chessSize], ans[chessSize], find;
 
-void printMap() {
-	int i, j;
-	for (i = 1; i < chessSize; i++) {
-		for (j = 1; j < chessSize; j++) {
-			printf("%d ", map[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	return;
-}
-
 void setMap(int x, int y, int flag) {
 	if (flag == 1) 
 		ans[x] = y;
@@ -47,9 +35,12 @@ void DFS(int beginX, int count) {
 	int i, j;
 	if (count == 8) {
 		printf("%2d      ", find + 1);
-		for (i = 1; i < chessSize; i++)
-			printf("%d ", ans[i]);
-		printf("\n");
+		for (i = 1; i < chessSize; i++) {
+			if (i != (chessSize - 1))
+				printf("%d ", ans[i]);
+			else
+				printf("%d\n", ans[i]);
+		}
 		find++;
 		return;
 	}
@@ -74,17 +65,19 @@ int main() {
 	int i, j, n;
 	scanf("%d", &n);
 	while (n--) {
-		printf("SOLN       COLUMN\n");
-		printf(" #      1 2 3 4 5 6 7 8\n\n");
 		for (i = 1; i < chessSize; i++) {
 			for (j = 1; j < chessSize; j++) 
 				map[i][j] = 0;
 			ans[i] = 0;
 		}
 		find = 0;
-		scanf("%d %d", &initY, &initX);
+		scanf("%d %d", &initY, &initX);	
+		printf("SOLN       COLUMN\n");
+		printf(" #      1 2 3 4 5 6 7 8\n\n");
 		setMap(initX ,initY, 1);
 		DFS(1, 1);
+		if (n > 0)
+			printf("\n");
 	}
 	return 0;
 }
