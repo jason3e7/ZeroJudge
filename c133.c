@@ -10,18 +10,6 @@
 
 int n, map[chessSize][chessSize], findMax;
 
-void printMap() {
-	int i, j;
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < n; j++) {
-			printf("%2d", map[i][j]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	return;
-}
-
 void setMap(int x, int y, int flag) {
 	map[x][y] += flag;
 	int i;
