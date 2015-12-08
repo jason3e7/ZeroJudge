@@ -10,47 +10,23 @@
 
 int n, n2, map[size][size], find;
 
-void debug() {
-	int i, j;
-	for (i = 0; i < n2; i++) {
-		for (j = 0; j < n2; j++) {
-			if (j != (n2 - 1))
-				printf("%d ", map[i][j]);
-			else
-				printf("%d\n", map[i][j]);
-		}
-	}
-	printf("\n");
-}
-
 int check(int x, int y, int num) {
 	int i, j;
-	for (i = 0; i < n2; i++) { 
-		//printf("x %d %d\n", i ,y);
-		if (map[i][y] == num) {
+	for (i = 0; i < n2; i++)  
+		if (map[i][y] == num) 
 			return 0;
-		}
-	}
-	//printf("x ok\n");
-	for (j = 0; j < n2; j++) {
-		//printf("y %d %d\n", x ,j);
-		if (map[x][j] == num) { 
+	for (j = 0; j < n2; j++) 
+		if (map[x][j] == num)  
 			return 0;
-		}
-	}
-	//printf("y ok\n");
 	int iBegin, iEnd, jBegin, jEnd;
 	iBegin = (x / n) * n;
 	iEnd = iBegin + n;
 	jBegin = (y / n) * n;
 	jEnd = jBegin + n;
-	for (i = iBegin; i < iEnd; i++) {
-		for (j = jBegin; j < jEnd; j++) { 
-			if (map[i][j] == num) { 
+	for (i = iBegin; i < iEnd; i++) 
+		for (j = jBegin; j < jEnd; j++) 
+			if (map[i][j] == num) 
 				return 0;
-			}
-		}
-	}
 	return 1;
 	
 }
@@ -80,12 +56,9 @@ void DFS(int x, int y, int count) {
 	if (map[x][y] != 0) {
 		DFS(x, y + 1, count);
 	} else {
-		//printf("%d %d is Zero\n", x, y);
 		for (k = 1; k <= n2; k++) {
-			//printf("check %d %d %d\n", x, y, k);
 			if (check(x, y, k) == 1) {
 				map[x][y] = k;
-				//debug();
 				DFS(x, y + 1, count - 1);
 				map[x][y] = 0;
 			}
@@ -95,7 +68,7 @@ void DFS(int x, int y, int count) {
 }
 
 int main() {
-	int i, j, count, flag, temp;
+	int i, j, count, flag, temp, first = 1;
 	while(scanf("%d", &n) != EOF) {
 		count = 0;
 		flag = 0;
@@ -116,10 +89,13 @@ int main() {
 			}
 		}
 		find = 0;
+		if (first == 0)
+			printf("\n");
 		if (flag == 0)
 			DFS(0, 0, count);
 		if (find == 0)
 			printf("NO SOLUTION\n");
+		first = 0;
 	}
 	return 0;
 }
