@@ -12,42 +12,41 @@ char output[230][130];
 int s, len;
 
 void setDigit(int local, int line) {
-	int i, baseL, baseH;
-	baseL = local * (s + 2) + local;
+	int i, j, beginL = 0, beginH = 0, endL = 0, endH = 0;
+	char symbol;
+
+	beginL = local * (s + 3);
 	switch(line) {
 		case 0:
-			for(i = baseL + 1; i <= baseL + s; i++)
-				output[0][i] = '-';
-			return;
-		case 1:
-			for(i = 1; i <= s; i++)
-				output[i][baseL] = '|';
-			return;
-		case 2:
-			baseL += (s + 1);
-			for(i = 1; i <= s; i++)
-				output[i][baseL] = '|';
-			return;
 		case 3:
-			baseH = s + 1;
-			for(i = baseL + 1; i <= baseL + s; i++)
-				output[baseH][i] = '-';
-			return;
-		case 4:
-			for(i = s + 2; i < (2 * s) + 2; i++)
-				output[i][baseL] = '|';
-			return;
-		case 5:
-			baseL += (s + 1);
-			for(i = s + 2; i < (2 * s) + 2; i++)
-				output[i][baseL] = '|';
-			return;
 		case 6:
-			baseH = (s + 1) * 2;
-			for(i = baseL + 1; i <= baseL + s; i++)
-				output[baseH][i] = '-';
-			return;	
+			symbol = '-';
+			beginH = (s + 1) * (line / 3);
+			endH = beginH;
+			
+			beginL += 1;
+			endL = beginL + s - 1;
+			break;
+		case 1:
+		case 4:
+		case 2:
+		case 5:
+			symbol = '|';
+			if (line == 2 || line == 5) 	
+				beginL += (s + 1);
+			endL = beginL;
+			
+			beginH = 1;
+			endH = s;
+			if (line == 4 || line == 5) {
+				beginH += (s + 1);
+				endH += (s + 1);
+			}
+			break;
 	}
+	for (i = beginH; i <= endH; i++)
+		for (j = beginL; j <= endL; j++)
+			output[i][j] = symbol;
 	return;
 }
 
@@ -75,8 +74,7 @@ int main() {
 			for (j = 0; j < 130; j++)
 				output[i][j] = ' ';
 
-		len = strlen(num);
-		
+		len = strlen(num);		
 		for (i = 0; i < len; i++) {
 			for (j = 0; j < 7; j++) {
 				if (digit[num[i] - '0'][j] == 1) {
@@ -85,7 +83,7 @@ int main() {
 			}
 		}
 				
-		width = (s + 2) * len + (len - 1);
+		width = (s + 3) * len - 1;
 		height = 2 * s + 3;
 		for (i = 0; i < height; i++) {
 			for (j = 0; j < width; j++) {
