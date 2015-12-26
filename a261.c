@@ -6,35 +6,24 @@
  */
 
 #include <stdio.h>
-
-unsigned long long int map[63][63] = {0};
-
-unsigned long long int getMaxLevel(int b, int t) {
-	if (b >= t)
-		return map[t][t];
-	if (b == 2)
-		return map[2][t];
-	map[b][t] = getMaxLevel(b - 1, t - 1) + 1 + getMaxLevel(b, t - 1);
-	return map[b][t];
-}
+#define MAX 64
 
 int main() {
-	int i, k, flag;
-	unsigned long long int n;
+	int i, j, k, flag;
+	unsigned long long int n, map[MAX][MAX] = {0};
 	map[1][1] = 1;
-	map[2][2] = 3;
-	for (i = 2; i < 64; i++) 
-		map[1][i] = i;
-	for (i = 3; i < 64; i++) 
-		map[2][i] = map[2][i - 1] + i;
-	for (i = 3; i < 64; i++) 
-		map[i][i] = (map[i - 1][i - 1] * 2) + 1;
+	for (i = 1; i < MAX; i++) 
+		for (j = 1; j < MAX; j++) 
+			map[i][j] = map[i - 1][j - 1] + 1 + map[i][j - 1];
+	
 	while (scanf("%d %lld", &k, &n) != EOF) {
-		if (n == 0 && k == 0)
+		if (k == 0)
 			break;
 		flag = 0;
-		for (i = 1; i < 64; i++) {
-			if (getMaxLevel(k, i) >= n) {
+		if (k >= MAX)
+			k = MAX - 1;
+		for (i = 1; i < MAX; i++) {
+			if (map[k][i] >= n) {
 				printf("%d\n", i);
 				flag = 1;
 				break;
