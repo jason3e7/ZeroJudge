@@ -14,7 +14,7 @@ int main() {
 			flag = 1;
 			scanf("%d %d", &x, &y);
 			for(j = 0; j < point; j++) {
-				if(x < map[j][0] && y < map[j][1]) {
+				if(x <= map[j][0] && y <= map[j][1]) {
 					flag = 0;
 					break;	
 				}
