@@ -42,23 +42,36 @@ int main() {
 				}
 			}
 		}
-		for(i = 0; i < point - 1; i++) {
-			if(map[i][0] == map[i + 1][0] && map[i][1] == map[i + 1][1]) {
-				for(j = i; j < point - 1; j++) {
-					map[j][0] = map[j + 1][0];
-					map[j][1] = map[j + 1][1];
+		temp = point;
+		for(i = 0; i < temp; i++) {
+			if(map[i][0] == -1 && map[i][1] == -1) {
+				continue;
+			}
+			for(j = i + 1; j < temp; j++) {
+				if(map[i][0] == map[j][0] && map[i][1] == map[j][1]) {
+					map[j][0] = -1;
+					map[j][1] = -1;
+					point--;
+				} else {
+					break;
 				}
-				point--;
-				i--;
 			}
 		}
 		printf("Case %d:\n", c);
 		printf("Dominate Point: %d\n", point);
-		for(i = 0; i < point; i++) {
+		for(i = 0; i < 100001; i++) {
+			if(map[i][0] == -1 && map[i][1] == -1) {
+				continue;
+			}
 			printf("(%d,%d)\n", map[i][0], map[i][1]);
+			point--;
+			if(point == 0) {
+				break;
+			}
 		}
 		c++;
 	}
 	return 0;
 }
+
 
