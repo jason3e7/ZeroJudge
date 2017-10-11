@@ -14,24 +14,19 @@ void clean_stdin(void) {
     } while (c != '\n' && c != EOF);
 }
 
-void getLineNumber(int* number) {
-	int temp = 0, flag = 0, point = 0;
-	char c;
-    do {
-		c = getchar();
-		if('0' <= c && c <= '9') {
-        	temp *= 10;
-			temp += (c - '0');
-			flag = 1;
-		} else {
-			if(flag == 1) {
-				number[point] = temp;
-				temp = 0;
-				flag = 0; 
-				point++;
-			}
-		}
-    } while (c != '\n' && c != EOF); 
+int input(void) {   
+	char cha;   
+	int x = 0; 
+	do {
+		cha = getchar();
+	} while ('0' > cha || cha > '9');
+	x = cha - '0';   
+	cha = getchar();
+	while ('0' <= cha && cha <= '9') {
+		x = x * 10 + (cha - '0');
+		cha = getchar();
+	}
+    return x;
 }
 
 int main() {
@@ -42,7 +37,9 @@ int main() {
 		begin = 0;
 		end = 0;
 		clean_stdin();
-		getLineNumber(&number[0]);
+		for(i = 0; i < n; i++) {
+			number[i] = input();
+		}
 		for(i = 0; i < n; i++) {
 			begin += number[i];
 			end = 0;
