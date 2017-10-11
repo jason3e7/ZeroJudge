@@ -7,36 +7,34 @@
 
 #include <stdio.h>
 int main() {
-	int n, number[100001], i, j, sum, begin, end, beginP, endP;
+	int n, number[100001], i, j, sum, begin, end;
 	while(scanf("%d", &n) != EOF) {
 		for(i = 0; i < n; i++) {
 			scanf("%d", &number[i]);
 		}
-		
 		sum = 0;
 		begin = number[0];
 		end = number[n - 1];
-		for(i = 1, j = n - 2; i < n || j >= 0;){
+		for(i = 1, j = n - 2; i < n && j >= 0;){
 			if(begin == end) {
 				sum++;	
-			} 
-			if(begin <= end && i < n) {
 				begin += number[i];
 				i++;
-				continue;
-			} 
-			if(begin >= end && j >= 0) {
 				end += number[j];
 				j--;
-				continue;
+			} else if(begin < end) {
+				begin += number[i];
+				i++;
+			} else if(begin > end) {
+				end += number[j];
+				j--;
 			}
 		}
-		if(begin == end) {
-			sum++;
-		}
+		sum++;
 		printf("%d\n", sum);
 	}
 	return 0;
 }
+
 
 
