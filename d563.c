@@ -6,52 +6,33 @@
   */
 
 #include <stdio.h>
-
-void clean_stdin(void) {
-    char c;
-    do {
-        c = getchar();
-    } while (c != '\n' && c != EOF);
-}
-
-int input(void) {   
-	char cha;   
-	int x = 0; 
-	do {
-		cha = getchar();
-	} while ('0' > cha || cha > '9');
-	x = cha - '0';   
-	cha = getchar();
-	while ('0' <= cha && cha <= '9') {
-		x = x * 10 + (cha - '0');
-		cha = getchar();
-	}
-    return x;
-}
-
 int main() {
-	int n, number[100001], i, j, sum, begin, end;
-	char c;
+	int n, number[100001], i, j, sum, begin, end, beginP, endP;
 	while(scanf("%d", &n) != EOF) {
-		sum = 0;
-		begin = 0;
-		end = 0;
-		clean_stdin();
 		for(i = 0; i < n; i++) {
-			number[i] = input();
+			scanf("%d", &number[i]);
 		}
-		for(i = 0; i < n; i++) {
-			begin += number[i];
-			end = 0;
-			for(j = n - 1; j >= 0; j--) {
+		
+		sum = 0;
+		begin = number[0];
+		end = number[n - 1];
+		for(i = 1, j = n - 2; i < n || j >= 0;){
+			if(begin == end) {
+				sum++;	
+			} 
+			if(begin <= end && i < n) {
+				begin += number[i];
+				i++;
+				continue;
+			} 
+			if(begin >= end && j >= 0) {
 				end += number[j];
-				if(begin == end) {
-					sum++;
-				}
-				if(end >= begin) {
-					break;
-				}
+				j--;
+				continue;
 			}
+		}
+		if(begin == end) {
+			sum++;
 		}
 		printf("%d\n", sum);
 	}
