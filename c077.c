@@ -11,29 +11,16 @@
 int point[5] = {0, 0, 0, 0, 1};
 
 int carry() {
-	if(point[4] >= 27) {
-		point[3]++;
-		point[4] = point[3] + 1;
+	int i, j, max = 26;
+	for(i = 4; i >= 1; i--, max--) {
+		if(point[i] > max) {
+			point[i - 1]++;
+			for(j = i; j <= 4; j++) {
+				point[j] = point[j - 1] + 1;
+			}
+		}
 	}
-	if(point[3] >= 26) {
-		point[2]++;
-		point[3] = point[2] + 1;
-		point[4] = point[3] + 1;
-	}
-	if(point[2] >= 25) {
-		point[1]++;
-		point[2] = point[1] + 1;
-		point[3] = point[2] + 1;
-		point[4] = point[3] + 1;
-	}
-	if(point[1] >= 24) {
-		point[0]++;
-		point[1] = point[0] + 1;
-		point[2] = point[1] + 1;
-		point[3] = point[2] + 1;
-		point[4] = point[3] + 1;
-	}
-	if(point[0] >= 23) {
+	if(point[0] > max) {
 		return 1;
 	}
 	return 0;
