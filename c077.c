@@ -7,8 +7,10 @@
   */
 
 #include <stdio.h>
+#include <string.h>
 
 int point[5] = {0, 0, 0, 0, 1};
+int map[23][24][25][26][27];
 
 int carry() {
 	int i, j, max = 26;
@@ -26,30 +28,41 @@ int carry() {
 	return 0;
 }
 
-int output(int n) {
-	printf("%d => ", n);
-	int i;
-	for(i = 0; i < 5; i++) {
-		if(point[i] != 0) {
-			printf("%c", point[i] + 96);
-		}
-	}
-	printf("\n");
-	return 0;
-}
-
-int printIndex(int n) {
-	output(n);
+int getMap(int n) {
+	map[point[0]][point[1]][point[2]][point[3]][point[4]] = n;
 	point[4]++;
 	if(carry() == 1) {
 		return 0;
 	}
-	printIndex(n + 1);
+	getMap(n + 1);
 	return 0;
 }
 
 int main() {
-	printIndex(1);
+	getMap(1);
+	char line[10];
+	int length, i, flag;
+	while(scanf("%s", line) != EOF) {
+		length = strlen(line);
+		flag = 0;
+		for(i = 1; i < length; i++) {
+			if(line[i - 1] > line[i]) {
+				flag = 1;
+				break;
+			}
+		}
+		if(flag == 1) {
+			printf("0\n");
+			continue;
+		}
+		for(i = 0; i < 5; i++) {
+			point[i] = 0;
+		}
+		for(i = 0; i < length; i++) {
+			point[(5 - length) + i] = line[i] - 96;
+		}
+		printf("%d\n", map[point[0]][point[1]][point[2]][point[3]][point[4]]);
+	}
 	return 0;
 }
 
