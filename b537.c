@@ -8,21 +8,32 @@
 #include <stdio.h>
 
 int main() {
-	int number[1000][2], i;
-	number[1][0] = 1;
-	number[1][1] = 1;
-	for(i = 2; i < 100; i++) {
-		if(i % 2 == 0) {
-			number[i][0] = number[i / 2][0] + number[i / 2][1];
-			number[i][1] = number[i / 2][1];
-		} else {
-			number[i][0] = number[i - 1][1];
-			number[i][1] = number[i - 1][0];
+	int a, b, i, swap, operator[1000], point;
+	unsigned long long int out;
+	while(scanf("%d %d", &a, &b) != EOF) {
+		point = 0;
+		while(a != b) {
+			if(a > b) {
+				a -= b;
+				operator[point] = 2;
+			} else if(a < b) {
+				swap = a;
+				a = b;
+				b = swap;
+				operator[point] = 1;
+			}
+			point++;
 		}
-		printf("%d => %d %d\n", i, number[i][0], number[i][1]);
+		out = 1;
+		for(i = point - 1; i >= 0; i--) {
+			if(operator[i] == 2) {
+				out *= 2;
+			} else if(operator[i] == 1) {
+				out += 1;
+			}
+		}
+		printf("%llu\n", out);
 	}
 	return 0;
 }
-
-
 
