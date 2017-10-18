@@ -38,28 +38,16 @@ int clearBase() {
 	return 0;
 }
 
-int printBase() {
-	int i;
-	for(i = 1; i <= 3; i++) {
-		printf("base %d : is %d\n", i, base[i]);
-	}
-	return 0;
-}
-
 int main() {
-	int out[27], play[9][5], temp, i, j, outCount, score;
-	char line[1000];
+	int play[9][5], temp, i, j, outCount, score;
+	char line[100];
 	while(scanf("%d", &temp) != EOF) {
-		// init
-		for(i = 0; i < 27; i++) {
-			out[i] = 0;
-		}
 		for(i = 0; i < 9; i++) {
 			for(j = 0; j < 5; j++) {
 				play[i][j] = -1;
 			}
 		}
-		// input
+		
 		for(i = 0; i < 9; i++) {
 			if(i > 0) {
 				scanf("%d", &temp);
@@ -79,43 +67,32 @@ int main() {
 				}
 			}
 		}
-		for(i = 0; i < 5; i++) {
-			for(j = 0; j < 9; j++) {
-				printf("%d ", play[j][i]);
-			}
-			printf("\n");
-		}
-		
-		// simulation
+
+		scanf("%d", &temp);
 		clearBase();
 		score = 0;
 		outCount = 0;
 		for(i = 0; i < 5; i++) {
 			for(j = 0; j < 9; j++) {
 				if(play[j][i] == 0) {
-					out[outCount] = score;
 					outCount++;
 					if(outCount % 3 == 0) {
 						clearBase();
+					}
+					if(temp == outCount) {
+						break;
 					}
 				} else if(play[j][i] > 0) {
 					score += run(play[j][i]);
 				} else if(play[j][i] < 0) {
 					break;
 				}
-				printf("======================\n");
-				printf("play : %d %d\n", j, i);
-				printf("score : %d\n", score);
-				printf("out : %d\n", outCount);
-				printBase();
+			}
+			if(temp == outCount) {
+				break;
 			}
 		}
-		scanf("%d", &temp);
-		printf("%d\n", temp);
+		printf("%d\n", score);
 	}
 	return 0;
 }
-
-
-
-
