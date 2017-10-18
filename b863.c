@@ -8,18 +8,15 @@
 #include <stdio.h>
 
 int main() {
-	int t, length, i, j, out, durian[100001];
+	int t, length, i, j, out, temp;
 	while(scanf("%d", &t) != EOF) {
 		while(t--) {
 			scanf("%d", &length);
 			out = (length - 1) * 2;
 			for(i = 0; i < length; i++) {
-				scanf("%d", &durian[i]);
-			}
-			for(i = length - 1, j = length - 1; i >= 0; i--, j++) {
-				if(durian[i] - j > 0) {
-					out += (durian[i] - j);
-					j += (durian[i] - j);
+				scanf("%d", &temp);
+				if(temp + i > out) {
+					out = temp + i;
 				}
 			}
 			printf("%d\n", out);
