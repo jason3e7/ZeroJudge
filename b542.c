@@ -27,24 +27,27 @@ int main() {
 		while(q--) {
 			scanf("%d", &temp);
 			match = 0;
-			for(i = 0; i < n; i++) {
-				count = 0;
-				for(j = i; j < n; j++) {
-					count += high[j];
-					if(count == temp) {
-						printf("YES\n");
-						match = 1;
-						break;
-					}
-					if(count > temp) {
-						break;
-					}
-				}
-				if(match == 1) {
+			i = 0;
+			j = 0;
+			count = 0;
+			while(1) {
+				if(count == temp) {
+					match = 1;
 					break;
+				} else if(count < temp) {
+					if(i >= n) {
+						break;
+					}
+					count += high[i];
+					i++;
+				} else if(count > temp) {
+					count -= high[j];
+					j++;
 				}
 			}
-			if(match == 0) {
+			if(match == 1) {
+				printf("YES\n");
+			} else {
 				printf("NO\n");
 			}
 		}
