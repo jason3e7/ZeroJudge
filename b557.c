@@ -6,29 +6,37 @@
   */
 
 #include <stdio.h>
-#include <stdlib.h>
-
-int cmpfunc (const void * a, const void * b) {
-   return ( *(int*)a - *(int*)b );
-}
 
 int main() {
-	int t, n, i, j, k, number[101], out;
+	int t, n, i, j, k, number[101], out, temp;
 	while(scanf("%d", &t) != EOF) {
 		while(t--) {
+			for(i = 0; i < 101; i++) {
+				number[i] = 0;
+			}
 			scanf("%d", &n);
 			for(i = 0;i < n; i++) {
-				scanf("%d", &number[i]);
+				scanf("%d", &temp);
+				number[temp]++; 
 			}
-			qsort(number, n, sizeof(int), cmpfunc);
 			out = 0;
-			for(i = 0;i < n; i++) {
-				for(j = i + 1;j < n; j++) {
-					for(k = j + 1;k < n; k++) {
-						if((number[i] + number[j]) > number[k]) {
-							if((number[i] * number[i] + number[j] * number[j]) == (number[k] * number[k])) {
-								out++;
-							}
+			for(i = 1;i < 99; i++) {
+				if(number[i] == 0) {
+					continue;
+				}
+				for(j = i + 1;j < 100; j++) {
+					if(number[j] == 0) {
+						continue;
+					}
+					for(k = j + 1;k < 101; k++) {
+						if(number[k] == 0) {
+							continue;
+						}
+						if((i + j) <= k) {
+							continue;
+						}
+						if((i * i + j * j) == (k * k)) {
+							out += (number[i] * number[j] * number[k]);
 						}
 					}
 				}
