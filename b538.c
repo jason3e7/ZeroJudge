@@ -8,15 +8,7 @@
 #include <stdio.h>
 
 int GCD(int a, int b) {
-	int swap;
-	if(b != 0) {
-		while(a != 0 && b != 0) {
-			a %= b;
-			swap = a;
-			a = b;
-			b = swap;
-		}
-	}
+	if(b) while((a %= b) && (b %= a)); 
 	return a + b;
 }
 
@@ -44,15 +36,11 @@ int main() {
 			defaulf :
 				break;
 		}
-		if(b < 0) {
-			a *= -1;
-			b *= -1;
-		}
 		if(a % b == 0) {
 			printf("%d\n", a / b);
 		} else {
 			gcd = GCD(a, b);
-			if(gcd < 0) {
+			if((gcd < 0 && b > 0) || (b < 0 && gcd > 0)) {
 				gcd *= -1;
 			}
 			printf("%d/%d\n", a / gcd, b / gcd);
