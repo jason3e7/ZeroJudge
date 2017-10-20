@@ -1,50 +1,80 @@
  /*
   * @file a982.c
   * @author Jason3e7
-  * @algorithm brute force
+  * @algorithm BFS
   * @date 201710201314
   */
 
 #include <stdio.h>
 #include <string.h>
 
-char map[101][101];
+int map[101][101] = {0}, point[101][2] = {0}, pIndex = 0;
 int n = 0, min = 1000000;
 int direction[4][2] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
 
-int walk(int x, int y, int count) {
-	if(count > min) {
+int walk(int count) {
+	int i, j, x, y, tPoint[101][2] = {0}, tIndex = 0;
+	if(pIndex == 0) {
 		return 0;
 	}
-	if(x == (n - 2) && y == (n - 2)) {
-		if(count < min) {
-			min = count;
-		}
-		return 0;
-	} 
-	int i;
-	for(i = 0; i < 4; i++) {
-		if(map[x + direction[i][0]][y + direction[i][1]] == '.') {
-			map[x][y] = '#';
-			walk(x + direction[i][0], y + direction[i][1], count + 1);
-			map[x][y] = '.';
+	for(i = 0; i < pIndex; i++) {
+		for(j = 0; j < 4; j++) {
+			x = point[i][0] + direction[j][0];
+			y = point[i][1] + direction[j][1];
+			if(map[x][y] == 0) {
+				map[x][y] = count + 1;
+				tPoint[tIndex][0] = x;
+				tPoint[tIndex][1] = y;
+				tIndex++;
+			}
+			if(x == n - 2 && y == n - 2) {
+				return 0;
+			}
 		}
 	}
+	for(i = 0; i < n; i++) {
+		for(j = 0; j < n; j++) {
+			printf("%2d ", map[i][j]);
+		}
+		printf("\n");
+	}
+	printf("==========================\n");
+	for(i = 0; i < tIndex; i++) {
+		point[i][0] = tPoint[i][0];
+		point[i][1] = tPoint[i][1];
+	}
+	pIndex = tIndex;
+	walk(count + 1);
 	return 0;
 }
 
 int main() {
-	int i;
+	int i, j;
+	char input[101][101];
 	while(scanf("%d", &n) != EOF) {
-		min = 1000000;
 		for(i = 0; i < n; i++) {
-			scanf("%s", map[i]);
+			scanf("%s", input[i]);
+			for(j = 0; j < n; j++) {
+				if(input[i][j] == '#') {
+					map[i][j] = -1;
+				}
+				if(input[i][j] == '.') {
+					map[i][j] = 0;
+				}
+			}
 		}
-		walk(1, 1, 1);
-		if(min == 1000000) {
+		pIndex = 0;
+		if(map[1][1] == 0) {
+			map[1][1] = 1;
+			point[pIndex][0] = 1;
+			point[pIndex][1] = 1;
+			pIndex++;
+			walk(1);
+		}
+		if(map[n - 2][n - 2] <= 0) {
 			printf("No solution!\n");
 		} else {
-			printf("%d\n", min);
+			printf("%d\n", map[n - 2][n - 2]);
 		}
 	}
 	return 0;
