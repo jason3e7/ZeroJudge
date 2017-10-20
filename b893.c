@@ -3,16 +3,17 @@
   * @author Jason3e7
   * @algorithm math
   * @date 201710210038
+  * @test case
+1 -4 -1 16 -12 0
   */
 
 #include <stdio.h>
-#include <math.h>
 
 int main() {
-	long int a, b, c, d, e, f, count;
-	int i, flag, outFlag;
-	while(scanf("%ld %ld %ld %ld %ld %ld", &a, &b, &c, &d, &e, &f) != EOF) {
-		if(a == 0 && b == 0 && c == 0 && d == 0 && e == 0 && f == 0) {
+	long int count, temp;
+	int i, j, k, flag, outFlag, n[6];
+	while(scanf("%d %d %d %d %d %d", &n[0], &n[1], &n[2], &n[3], &n[4], &n[5]) != EOF) {
+		if(n[0] == 0 && n[1] == 0 && n[2] == 0 && n[3] == 0 && n[4] == 0 && n[5] == 0) {
 			printf("Too many... = =\"\n");
 			continue;
 		}
@@ -20,19 +21,12 @@ int main() {
 		outFlag = 0;
 		for(i = -73; i <= 73; i++) {
 			count = 0;
-			count += a * pow(i, 5);
-			count += b * pow(i, 4);
-			count += c * pow(i, 3);
-			count += d * pow(i, 2);
-			count += e * pow(i, 1);
-			count += f;
-			if(flag == 0) {
-				if(count > 0) {
-					flag = 1;
-				} else if(count < 0){
-					flag = -1;
+			for(j = 0; j < 6; j++) {
+				temp = n[j];
+				for(k = 5 - j; k > 0; k--) {
+					temp *= i; 
 				}
-				continue;
+				count += temp;
 			}
 			if(count == 0) {
 				printf("%d %d\n", i, i);
@@ -45,6 +39,11 @@ int main() {
 				flag *= -1;
 				outFlag = 1;
 			} 
+			if(count > 0) {
+				flag = 1;
+			} else if(count < 0){
+				flag = -1;
+			}
 		}
 		if(outFlag == 0) {
 			printf("N0THING! >\\\\\\<\n");
