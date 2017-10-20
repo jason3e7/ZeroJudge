@@ -22,16 +22,6 @@ int walk(int xLocate, int yLocate) {
 	if(yLocate < w) {
 		w = yLocate;
 	}
-	int j, k;
-	for(j = 0; j < x; j++) {
-		for(k = 0; k < y; k++) {
-			printf("%d ", map[j][k]);
-		}
-		printf("\n");
-	}
-	printf("\n");
-	printf("%d %d %d %d %d\n", w, n ,e, s, a);
-	printf("\n");
 	int i;
 	for(i = 0; i < 4; i++) {
 		if(map[xLocate + d[i][0]][yLocate + d[i][1]] == 1) {
