@@ -32,13 +32,6 @@ int walk(int count) {
 			}
 		}
 	}
-	for(i = 0; i < n; i++) {
-		for(j = 0; j < n; j++) {
-			printf("%2d ", map[i][j]);
-		}
-		printf("\n");
-	}
-	printf("==========================\n");
 	for(i = 0; i < tIndex; i++) {
 		point[i][0] = tPoint[i][0];
 		point[i][1] = tPoint[i][1];
