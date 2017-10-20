@@ -2,7 +2,7 @@
   * @file learnArrayAndPointer.c
   * @author Jason3e7
   * @algorithm array and pointer
-  * @date 20171021832
+  * @date 201710201832
   */
 
 #include <stdio.h>
