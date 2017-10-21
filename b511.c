@@ -14,9 +14,7 @@ int arrayCopy(int a[], int b[], int n) {
 	int i;
 	for(i = 0; i < n; i++) {
 		a[i] = b[i];
-		printf("=%d=", a[i]);
 	}
-	printf("\n");
 	return 0;
 }
 
@@ -28,10 +26,6 @@ int findNext(int point) {
 	max = sum / coin[point];
 	for(i = max; i >= 0; i--) {
 		int j = point;
-		while(j--) {
-			printf("  ");
-		}
-		printf("%d %d %d\n", i, point, tempSum);
 		tempSum += (coin[point] * i);
 		if(tempSum > sum) {
 			tempSum -= (coin[point] * i);
@@ -63,13 +57,16 @@ int main() {
 		}
 		ansPoint = 0;
 		tempSum = 0;
-		findNext(0);
-		
-		for(i = 0; i < ansPoint; i++) {
+		findNext(0);	
+		for(i = ansPoint - 1; i >= 0; i--) {
 			for(j = 0; j < n; j++) {
-				printf("%d ", ans[i][j]);
+				if(j == 0) {
+					printf("(%d", ans[i][j]);
+				} else {
+					printf(",%d", ans[i][j]);
+				}
 			}
-			printf("\n");
+			printf(")\n");
 		}
 	}
 	return 0;
