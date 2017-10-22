@@ -1,7 +1,7 @@
  /*
   * @file c188.c
   * @author Jason3e7
-  * @algorithm basic
+  * @algorithm DP
   * @date 201710221500
   */
 
