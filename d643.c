@@ -41,13 +41,6 @@ int main() {
 			}
 		}
 		printf("%d\n", findMax(0, 100));
-		for(i = 0; i < n; i++) {
-			for(j = 0; j < 101; j++) {
-				if(dp[i][j] != -1) {
-					printf("%d %d %d\n", i, j, dp[i][j]);
-				}
-			}
-		}
 	}
 	return 0;
 }
