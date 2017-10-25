@@ -55,14 +55,12 @@ over mod and negative !?
 
 int mmi(int a, int n) {
 	int swap, mod = n;
-	int rx = 1, ry = 0, lx = 0, ly = 1, step = 1;
+	int rx = 1, lx = 0, step = 1;
 	while(a % n) {
 		if(step) {
 			rx -= (a / n * lx);
-			ry -= (a / n * ly);
 		} else {
 			lx -= (a / n * rx);
-			ly -= (a / n * ry);
 		}
 		swap = n;
 		n = a % n;
