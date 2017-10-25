@@ -1,0 +1,23 @@
+Time Complexity
+Space Complexity
+
+               | time*       | space
+---------------+-------------+--------
+bubble sort    | O(n²)       | O(n)
+insertion sort | O(n²)       | O(n)
+merge sort     | O(n log(n)) | O(n)
+quicksort      | O(n²)       | O(n)
+heapsort       | O(n log(n)) | O(n)
+counting sort  | O(n+r)      | O(n+r)
+
+*worst case
+
+
+
+* Simulation
+* Divide and Conquer
+* Greedy
+* Backtracking
+* 0/1 Knapsack
+* Dynamic Programming
+** Divide and Conquer + Memoization
