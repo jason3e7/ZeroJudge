@@ -20,28 +20,28 @@ int findMax(int point, int existV) {
 	if(existV < 0) {
 		return -1e9;
 	}
-	if(point == 0) {
+	if(point >= n) {
 		return 0;
 	}
 	if(dp[point][existV] == -1) {
-		dp[point][existV] = max(findMax(point - 1, existV), findMax(point - 1, existV - v[point]) + s[point]);
+		dp[point][existV] = max(findMax(point + 1, existV), findMax(point + 1, existV - v[point]) + s[point]);
 	}
 	return dp[point][existV];
 }
 
 int main() {
-	int i, n, j;
+	int i, j;
 	while(scanf("%d", &n) != EOF) {
-		for(i = 1; i <= n; i++) {
+		for(i = 0; i < n; i++) {
 			scanf("%d %d", &v[i], &s[i]);
 		}
-		for(i = 1; i <= n; i++) {
+		for(i = 0; i < n; i++) {
 			for(j = 0; j < 101; j++) {
 				dp[i][j] = -1;
 			}
 		}
-		printf("%d\n", findMax(n, 100));
-		for(i = 1; i <= n; i++) {
+		printf("%d\n", findMax(0, 100));
+		for(i = 0; i < n; i++) {
 			for(j = 0; j < 101; j++) {
 				if(dp[i][j] != -1) {
 					printf("%d %d %d\n", i, j, dp[i][j]);
