@@ -1,42 +1,38 @@
  /*
   * @file d643.c
   * @author Jason3e7
-  * @algorithm backtracking
+  * @algorithm DP(0/1 Knapsack Problem)
   * @date 201710261019
   */
 
 #include <stdio.h>
 
-int n, v[10001], s[10001], max = 0, volume = 0, satiate = 0;
+int n, v[10001], s[10001];
 
-int eatFeed(int point) {
-	int i;
-	for(i = point; i < n; i++) {
-		if(volume + v[i] > 100) {
-			if(satiate > max) {
-				max = satiate;
-			}
-		} else {
-			volume += v[i];
-			satiate += s[i];
-			eatFeed(i + 1);
-			volume -= v[i];
-			satiate -= s[i];
-		}
-		eatFeed(i + 1);
+int max(int a, int b) {
+	if(a > b) {
+		return a;
 	}
-	return 0;
+	return b;
+}
+
+int findMax(int point, int existV) {
+	if(existV < 0) {
+		return -1e9;
+	}
+	if(point == 0) {
+		return 0;
+	}
+	return max(findMax(point - 1, existV), findMax(point - 1, existV - v[point]) + s[point]);
 }
 
 int main() {
-	int i;
+	int i, n;
 	while(scanf("%d", &n) != EOF) {
-		max = 0, volume = 0, satiate = 0;
-		for(i = 0; i < n; i++) {
+		for(i = 1; i <= n; i++) {
 			scanf("%d %d", &v[i], &s[i]);
 		}
-		eatFeed(0);
-		printf("%d\n", max);
+		printf("%d\n", findMax(n, 100));
 	}
 	return 0;
 }
