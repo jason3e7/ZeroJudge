@@ -28,28 +28,14 @@ void setMap(int x, int y, int flag, char c) {
 	return;
 }
 
-void DFSc(int x, int q, int c) {
+void DFS(int x, int q, int c, char flag) {
 	int i, j;
 	if(q == 0 && c == 0) {
 		findSum++;
 		return;
 	}
-	for (i = x; i <= size; i++) {
-		for (j = 1; j <= size; j++) {
-			if (map[i][j] == 0) {
-				setMap(i, j, 1, 'c');
-				DFSc(i + 1, q, c - 1);
-				setMap(i, j, -1, 'c');
-			}
-		}
-	}		
-	return;
-}
-
-void DFSq(int x, int q, int c) {
-	int i, j;
-	if(q == 0) {
-		DFSc(1, 0, c);
+	if(q == 0 && flag == 'q') {
+		DFS(1, q, c, 'c');
 		return;
 	}
 	if(q > (size + 1 - x)) {
@@ -58,9 +44,14 @@ void DFSq(int x, int q, int c) {
 	for (i = x; i <= size; i++) {
 		for (j = 1; j <= size; j++) {
 			if (map[i][j] == 0) {
-				setMap(i, j, 1, 'q');
-				DFSq(i + 1, q - 1, c);
-				setMap(i, j, -1, 'q');
+				setMap(i, j, 1, flag);
+				if(flag == 'q') {
+					DFS(i + 1, q - 1, c, flag);
+				}
+				if(flag == 'c') {
+					DFS(i + 1, q, c - 1, flag);
+				}
+				setMap(i, j, -1, flag);
 			}
 		}
 	}		
@@ -77,7 +68,7 @@ int main() {
 			}
 		}
 		findSum = 0;
-		DFSq(1, m, n);
+		DFS(1, m, n, 'q');
 		printf("%d\n", findSum);
 	}
 	return 0;
