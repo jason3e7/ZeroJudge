@@ -9,6 +9,32 @@
   */
 
 #include <stdio.h>
+
+int getNum() {
+	char cha;
+	int n;
+	while(1) {
+		cha = getchar();
+		if(('0' <= cha && cha <= '9') || cha == EOF) {
+			break;
+		}
+	} 
+	if(cha == EOF) {
+		return -1;
+	}
+	n = cha - '0';
+	while(1) {
+		cha = getchar();
+		if('0' <= cha && cha <= '9') {
+			n *= 10;
+			n += (cha - '0');
+		} else {
+			break;
+		}
+	}
+	return n;
+
+}
  
 int num[100001], count[100001], point;
 
@@ -28,7 +54,11 @@ int insertNum(int n) {
 	
 int main() {
 	int n, i;
-	while(scanf("%d", &n) != EOF) {
+	while(1) {
+		n = getNum();
+		if(n == -1) {
+			break;
+		}
 		insertNum(n);
 	}
 	for(i = 0; i < 100001; i++) {
@@ -39,4 +69,3 @@ int main() {
 	}
 	return 0;
 }
-
