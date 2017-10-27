@@ -11,15 +11,6 @@
 
 int num[26];
 
-void printArray() {
-	int i;
-	for(i = 0; i < 26; i++) {
-		printf("%d ", num[i]);
-	}
-	printf("\n");
-	return;
-}
-
 void nextArray(int len) {
 	int i; 
 	int temp[26], count = num[25];
@@ -56,27 +47,20 @@ int getDiff(int length, char line[]) {
 	for(i = 0; i < 26; i++) {
 		num[i] = 1;
 	}
-	printArray();
 	for(i = length - 1; i > 0; i--) {
 		bitDiff = line[i] - line[i - 1] - 1; 
 		begin = (line[i - 1] - 'a' + 1) + (arrayLen - 1);
-		printf("bitDiff = %d begin = %d \n ", bitDiff, begin);
 		for(j = 0; j < bitDiff; j++) {
 			diffSum += num[begin + j];
 		}
-		printf("diffSum=%d\n", diffSum);
 		nextArray(arrayLen);
 		arrayLen++;
-		printArray();
 	}
 	bitDiff = line[0] - 'a';
 	begin = (line[0] - 'a') + (arrayLen - 2);
-	printf("bitDiff = %d begin = %d \n ", bitDiff, begin);
 	for(i = 0; i < bitDiff; i++) {
 		diffSum += num[begin - i];
 	}
-	printf("diffSum=%d\n", diffSum);
-	printf("\n");
 	return diffSum;
 }
 
@@ -99,8 +83,6 @@ int main() {
 			printf("0\n");
 			continue;
 		}
-		printf("base=%d\n", getBase(length));
-		printf("diff=%d\n", getDiff(length, line));
 		printf("%d\n", getBase(length) + getDiff(length, line));
 	}
 	return 0;
