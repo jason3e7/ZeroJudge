@@ -11,15 +11,24 @@
 
 int num[26];
 
-void nextArray(int len) {
+void printArray() {
+	int i;
+	for(i = 0; i < 26; i++) {
+		printf("%d ", num[i]);
+	}
+	printf("\n");
+	return;
+}
+
+void nextArray(int lineNum) {
 	int i; 
 	int temp[26], count = num[25];
 	temp[25] = count;
-	for(i = 24; i >= len; i--) {
+	for(i = 24; i >= lineNum; i--) {
 		count += num[i];
 		temp[i] = count;
 	}
-	for(i = 0; i < len; i++) {
+	for(i = 0; i < lineNum; i++) {
 		temp[i] = 0;
 	}
 	memcpy(num, temp, sizeof(temp));
@@ -27,7 +36,7 @@ void nextArray(int len) {
 }
 
 int getBase(int length) {
-	int i, base = 1, arrayLen = 1;
+	int i, base = 1, lineNum = 1;
 	for(i = 0; i < 26; i++) {
 		num[i] = 1;
 	}
@@ -36,31 +45,36 @@ int getBase(int length) {
 		for(i = 0; i < 26; i++) {
 			base += num[i];
 		}
-		nextArray(arrayLen);
-		arrayLen++;
+		nextArray(lineNum);
+		lineNum++;
 	}
 	return base;
 }
 
 int getDiff(int length, char line[]) {
-	int i, j, arrayLen = 1, bitDiff = 0, diffSum = 0, begin = 0;
+	int i, j, lineNum = 1, bitDiff = 0, diffSum = 0, begin = 0;
 	for(i = 0; i < 26; i++) {
 		num[i] = 1;
 	}
 	for(i = length - 1; i > 0; i--) {
 		bitDiff = line[i] - line[i - 1] - 1; 
-		begin = (line[i - 1] - 'a' + 1) + (arrayLen - 1);
+		begin = (line[i - 1] - 'a' + 1) + (lineNum - 1);
+		printf("bitDiff = %d begin = %d \n ", bitDiff, begin);
 		for(j = 0; j < bitDiff; j++) {
 			diffSum += num[begin + j];
 		}
-		nextArray(arrayLen);
-		arrayLen++;
+		nextArray(lineNum);
+		lineNum++;
 	}
 	bitDiff = line[0] - 'a';
-	begin = (line[0] - 'a') + (arrayLen - 2);
+	begin = 0 + (lineNum - 1);
+	printf(" %d  %d \n ", (line[0] - 'a'), length);
+	printArray();
+	printf("bitDiff = %d begin = %d \n ", bitDiff, begin);
 	for(i = 0; i < bitDiff; i++) {
-		diffSum += num[begin - i];
+		diffSum += num[begin + i];
 	}
+	printf("diffSum=%d\n", diffSum);
 	return diffSum;
 }
 
