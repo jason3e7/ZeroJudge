@@ -1,58 +1,54 @@
  /*
   * @file c122.c
   * @author Jason3e7
-  * @algorithm basic 
+  * @algorithm DP 
   * @UVa 443
   * @date 201711010942
+  * @note 111
   */
 
 #include <stdio.h>
 
-int prime[5843] = {2, 3, 5, 7};
-
-int check(int n) {
-	int i;
-	if(n % 2 != 0 && n % 3 != 0 && n % 5 != 0 && n % 7 != 0) {
-		return 0;
+int min(int a, int b) {
+	if(a < b) {
+		return a;
 	}
-	for(i = 0; i < 4; i++) {
-		while(n % prime[i] == 0) {
-			n /= prime[i];
-		}
-	}
-	if(n == 1) {
-		return 1;
-	} 
-	return 0;
+	return b;
 }
 
 int main() {
-	int num[5843], point, count, n;
-	num[0] = 0;
-	num[1] = 1;
-	count = 2;
-	point = 2;
-	while(point < 1000) {
-		if(check(count) == 1) {
-			num[point] = count;
-			point++;
+	int i, n, num[5842], point[4] = {0, 0, 0, 0}, minNum;
+	num[0] = 1;
+	for(i = 1; i < 5842; i++) {
+		minNum = min(min(2 * num[point[0]], 3 * num[point[1]]) , min(5 * num[point[2]], 7 * num[point[3]]));
+		num[i] = minNum;
+		if(minNum == 2 * num[point[0]]) {
+			point[0]++;
 		}
-		count++;
+		if(minNum == 3 * num[point[1]]) {
+			point[1]++;
+		}
+		if(minNum == 5 * num[point[2]]) {
+			point[2]++;
+		}
+		if(minNum == 7 * num[point[3]]) {
+			point[3]++;
+		}
 	}
 	while(scanf("%d", &n) != EOF) {
 		if(n == 0) {
 			break;
 		}
-		if(n / 10 == 1) {
-			printf("The %dth humble number is %d.\n", n, num[n]);
+		if((n / 10) % 10 == 1) {
+			printf("The %dth humble number is %d.\n", n, num[n - 1]);
 		} else if(n % 10 == 1) {
-			printf("The %dst humble number is %d.\n", n, num[n]);
+			printf("The %dst humble number is %d.\n", n, num[n - 1]);
 		} else if(n % 10 == 2) {
-			printf("The %dnd humble number is %d.\n", n, num[n]);
+			printf("The %dnd humble number is %d.\n", n, num[n - 1]);
 		} else if(n % 10 == 3) {
-			printf("The %drd humble number is %d.\n", n, num[n]);
+			printf("The %drd humble number is %d.\n", n, num[n - 1]);
 		} else {
-			printf("The %dth humble number is %d.\n", n, num[n]);
+			printf("The %dth humble number is %d.\n", n, num[n - 1]);
 		}
 	}
 	return 0;
