@@ -11,7 +11,6 @@
 unsigned long long int cal(int n, int m) {
 	unsigned long long int sum = 1; 
 	int mul[101] = {0};
-	int div[101] = {0};
 	int diff = (n - m), i, j, temp;
 	if(diff > m) {
 		temp = diff;
@@ -19,14 +18,23 @@ unsigned long long int cal(int n, int m) {
 		m = temp;
 	}
 	for(i = m + 1; i <= n; i++) {
-		mul[i] = i;
+		temp = i;
+		j = 2;
+		while(temp != 1) {
+			if(temp % j == 0) {
+				mul[j]++;
+				temp /= j;
+			} else {
+				j++;
+			}
+		}	
 	}
 	for(i = 2; i <= diff; i++) {
 		temp = i;
 		j = 2;
 		while(temp != 1) {
 			if(temp % j == 0) {
-				div[j]++;
+				mul[j]--;
 				temp /= j;
 			} else {
 				j++;
@@ -34,18 +42,9 @@ unsigned long long int cal(int n, int m) {
 		}	
 	}
 	for(i = 2; i <= 100; i++) {
-		while(div[i] != 0) {
-			for(j = m + 1; j <= n; j++)  {
-				if(mul[j] % i == 0) {
-					mul[j] /= i;
-					div[i]--;
-					break;
-				}
-			}
+		while(mul[i]--) {
+			sum *= i;
 		}
-	}
-	for(i = m + 1; i <= n; i++) {
-		sum *= mul[i];
 	}
 	return sum;
 }
