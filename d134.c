@@ -4,6 +4,7 @@
   * @algorithm math 
   * @UVa 369
   * @date 201711051039
+  * @note Pascal's triangle !?
   */
 
 #include <stdio.h>
