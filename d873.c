@@ -2,7 +2,7 @@
   * @file d873.c
   * @author Jason3e7
   * @algorithm big number
-  * @UVa 873
+  * @UVa 465
   * @date 201711070933
   * @note while(*end++){}; end-=2;
   */
@@ -11,8 +11,8 @@
 #include <string.h>
 #define maxLength 10001
 
-char * fix_fgets(char * str, int n) {
-	char * ret_val;
+char* fix_fgets(char* str, int n) {
+	char* ret_val;
 	int i;
 	ret_val = fgets(str, n, stdin);
 	if(ret_val) {
@@ -54,12 +54,14 @@ char* checkNum(char* num)  {
 		}
 	}
 	if(firstNotZero == -1) {
-		return "0";
+		num[0] = '0';
+		num[1] = '\0';
+	} else {
+		for(i = firstNotZero; i < length; i++) {
+			num[i - firstNotZero] = num[i];
+		}
+		num[length - firstNotZero] = '\0';
 	}
-	for(i = firstNotZero; i < length; i++) {
-		num[i - firstNotZero] = num[i];
-	}
-	num[length - firstNotZero] = '\0';
 	return num;
 }
 
