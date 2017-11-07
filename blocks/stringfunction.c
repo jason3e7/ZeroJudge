@@ -45,12 +45,26 @@ void swap(char *str1, char *str2) {
 	strncpy(str2, temp, 105);
 }
 
+char* strrev(char* str)  {  
+    char* begin = str;      
+    char* end = str + strlen(str) - 1;  
+    char swap;  
+  
+    while(begin < end) {
+        swap = *begin;  
+        *begin++ = *end;
+        *end-- = swap;
+    }   
+    return str;  
+} 
+
 int main() {
 	char a[105], b[105];
 	while(scanf("%s %s", a, b) != EOF) {
 		printf("%d\n", cmp(a, b)); 
 		swap(a, b);
 		printf("%s %s\n", a, b);
+		printf("%s\n", strrev(a));
 	}
 	return 0;
 }
