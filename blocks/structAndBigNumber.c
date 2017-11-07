@@ -4,6 +4,8 @@
   * @algorithm big number
   * @date 201711071428
   * @note negative
+  * class and operator overloading only c++
+  * struct c/c++
   */
 
 #include <stdio.h>
