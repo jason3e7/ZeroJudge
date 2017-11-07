@@ -15,8 +15,8 @@ void clean_stdin(void) {
     } while (c != '\n' && c != EOF);
 }
 
-char * fix_fgets(char * str, int n) {
-	char * ret_val;
+char* fix_fgets(char* str, int n) {
+	char* ret_val;
 	int i;
 	ret_val = fgets(str, n, stdin);
 	if(ret_val) {
@@ -58,12 +58,16 @@ int getLineNumber(char line[], int number[], int* point) {
 
 int main() {
 	char line[100001];
-	int length, n, i, num[101], point;
+	int length, n, i, num[101], point, a, b;
 	scanf("%d", &n);
 	printf("%d\n", n);
 	clean_stdin();
 	while(fix_fgets(line, 100001) != NULL) {
 		printf("%s\n", line);
+		// if two number
+		sscanf(line, "%d %d", &a, &b);
+		printf("%d %d\n", a, b);
+
 		point = 0;
 		if(getLineNumber(line, num, &point)) {
 			for(i = 0; i < point; i++) {
