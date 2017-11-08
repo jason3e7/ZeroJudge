@@ -87,8 +87,10 @@ int compare(bigNumber a, bigNumber b) {
 bigNumber minus(bigNumber a, bigNumber b) {
 	int cmp = compare(a, b), i;
 	if (cmp == 1) {
-		for(i = 0; i < b.length; i++) {
-			a.digit[i] -= (b.digit[i] - '0');
+		for(i = 0; i < a.length; i++) {
+			if(i < b.length) {
+				a.digit[i] -= (b.digit[i] - '0');
+			}
 			if('0' > a.digit[i]) {
 				a.digit[i] += 10;
 				a.digit[i + 1]--;
@@ -100,8 +102,10 @@ bigNumber minus(bigNumber a, bigNumber b) {
 		}
 		return a;
 	} else if (cmp == -1) {
-		for(i = 0; i < a.length; i++) {
-			b.digit[i] -= (a.digit[i] - '0');
+		for(i = 0; i < b.length; i++) {
+			if(i < a.length) {
+				b.digit[i] -= (a.digit[i] - '0');
+			}
 			if('0' > b.digit[i]) {
 				b.digit[i] += 10;
 				b.digit[i + 1]--;
