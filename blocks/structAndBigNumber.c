@@ -6,11 +6,61 @@
   * @note negative
   * class and operator overloading only c++
   * struct c/c++
+  * @test case
+= + =
+0 + 0
+1 + 0
+0 + 1
+1 + 1
+1 + 99
+99 + 1
+
+= - =
+0 - 0
+0 - 1
+1 - 0
+1 - 1
+100 - 1
+1 - 100
+
+= * =
+0 * 0
+0 * 1
+1 * 0
+1 * 1
+2 * 5
+5 * 2
+
   */
 
 #include <stdio.h>
 #include <string.h>
 #define maxLength 10001
+
+typedef struct {
+	char sign;
+	char digit[maxLength];
+	int length;
+}bigNumber;
+
+bigNumber str2bigNumber(char*);
+void print(bigNumber);
+int compare(bigNumber, bigNumber);
+bigNumber zero();
+bigNumber plus(bigNumber, bigNumber);
+bigNumber minus(bigNumber, bigNumber);
+bigNumber mul(bigNumber, bigNumber);
+bigNumber arithmetic(bigNumber, bigNumber, char);
+
+int main() {
+	char a[maxLength], b[maxLength], operator;
+	while(scanf("%s %c %s", a, &operator, b) != EOF) {
+		bigNumber aNum = str2bigNumber(a);
+		bigNumber bNum = str2bigNumber(b);
+		print(arithmetic(aNum, bNum, operator));
+	}
+	return 0;
+}
 
 char* strrev(char* str)  {  
     char* begin = str;      
@@ -24,12 +74,6 @@ char* strrev(char* str)  {
     }   
     return(str);  
 }  
-
-typedef struct {
-	char sign;
-	char digit[maxLength];
-	int length;
-}bigNumber;
 
 bigNumber str2bigNumber(char* number) {
 	bigNumber r;
@@ -92,6 +136,11 @@ int compare(bigNumber a, bigNumber b) {
 	return 0;
 }
 
+bigNumber zero() {
+	bigNumber temp = {'+', "0", 1};
+	return temp;
+}
+
 bigNumber plus(bigNumber a, bigNumber b) {
 	int maxLen, i;
 	if(a.length > b.length) {
@@ -125,6 +174,44 @@ bigNumber plus(bigNumber a, bigNumber b) {
 	return a;
 }
 
+bigNumber minus(bigNumber a, bigNumber b) {
+	int cmp = compare(a, b), i;
+	if (cmp == 1) {
+		for(i = 0; i < a.length; i++) {
+			if(i < b.length) {
+				a.digit[i] -= (b.digit[i] - '0');
+			}
+			if('0' > a.digit[i]) {
+				a.digit[i] += 10;
+				a.digit[i + 1]--;
+			}
+		}
+		while(a.digit[a.length - 1] == '0') {
+			a.digit[a.length - 1] = '\0';
+			a.length--;
+		}
+		return a;
+	} else if (cmp == -1) {
+		for(i = 0; i < b.length; i++) {
+			if(i < a.length) {
+				b.digit[i] -= (a.digit[i] - '0');
+			}
+			if('0' > b.digit[i]) {
+				b.digit[i] += 10;
+				b.digit[i + 1]--;
+			}
+		}
+		while(b.digit[b.length - 1] == '0') {
+			b.digit[b.length - 1] = '\0';
+			b.length--;
+		}
+		b.sign = '-';
+		return b;
+	}
+	a = zero();
+	return a;
+}
+
 bigNumber mul(bigNumber a, bigNumber b) {
 	int i, j, sum[maxLength] = {0}, zeroFlag = 1;
 	for(i = 0; i < a.length; i++) {
@@ -149,10 +236,7 @@ bigNumber mul(bigNumber a, bigNumber b) {
 		maxLen++;
 	}
 	if(zeroFlag == 1) {
-		a.digit[0] = '0';
-		a.digit[1] = '\0';
-		a.length = 1;
-		a.sign = '+';
+		a = zero();
 	} else {
 		a.digit[maxLen] = '\0';
 		a.length = maxLen;
@@ -166,6 +250,7 @@ bigNumber arithmetic(bigNumber a, bigNumber b, char operator) {
 			return plus(a, b);
 			break;
 		case '-':
+			return minus(a, b);
 			break;
 		case '*':
 			return mul(a, b);
@@ -175,17 +260,6 @@ bigNumber arithmetic(bigNumber a, bigNumber b, char operator) {
 		default : 
 			break;
 	}
-	bigNumber temp = {'+', "0", 1};
-	return temp;
-}
-
-int main() {
-	char a[maxLength], b[maxLength], operator;
-	while(scanf("%s %c %s", a, &operator, b) != EOF) {
-		bigNumber aNum = str2bigNumber(a);
-		bigNumber bNum = str2bigNumber(b);
-		print(arithmetic(aNum, bNum, operator));
-	}
-	return 0;
+	return zero();
 }
 
