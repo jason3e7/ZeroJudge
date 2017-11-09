@@ -9,7 +9,6 @@
 #define maxL 1000
 #define maxD 4
 #define modN 10000
-#define max 2015
 
 typedef struct {
 	int sign;
@@ -22,20 +21,17 @@ void print(bigint);
 bigint zero();
 bigint plus(bigint, bigint);
 bigint mul(bigint, bigint);
+bigint power(bigint, int);
 
 int main() {
-	int n, i, j;
-	bigint num[max];
-	for(i = 0; i < max; i++) {
-		num[i] = int2bigint(i + 1);
-	}
-	for(i = 0; i < max; i++) {
-		for(j = max - 1; j > i; j--) {
-			num[j] = plus(num[j - 1], num[j]);
-		}
-	}
+	int n;
+	bigint num;
 	while(scanf("%d", &n) != EOF) {	
-		print(num[n - 1]);
+		if(n == 1) {
+			printf("1\n");
+			continue;
+		}	
+		print(mul(int2bigint(n + 1), power(int2bigint(2), n - 2)));
 	}
 	return 0;
 }
@@ -127,5 +123,13 @@ bigint mul(bigint a, bigint b) {
 		sum.length++;
 	}
 	return sum;
+}
+
+bigint power(bigint a, int b) {
+	bigint base = int2bigint(1);
+	while(b--) { 
+		base = mul(base, a);
+	}
+	return base;
 }
 
