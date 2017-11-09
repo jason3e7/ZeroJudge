@@ -6,30 +6,31 @@
   */
   
 #include <stdio.h>
-#include <string.h>
-#define maxLength 100001
+#include <time.h>
+#define maxL 1000
+#define maxD 4
+#define modN 10000
 
 typedef struct {
-	char sign;
-	char digit[maxLength];
+	int sign;
+	int digit[maxL];
 	int length;
-}bigNumber;
+}bigint;
 
-bigNumber int2bigNumber(int);
-void print(bigNumber);
-bigNumber zero();
-bigNumber plus(bigNumber, bigNumber);
-bigNumber mul(bigNumber, bigNumber);
+bigint int2bigint(int);
+void print(bigint);
+bigint zero();
+bigint plus(bigint, bigint);
+bigint mul(bigint, bigint);
 
 int main() {
 	int i, n;
-	bigNumber sum, base, temp;
-	sum = zero();
-	base = zero();
+	bigint sum, base, temp;
+	sum = zero();	
 	for(i = 1; i <= 1000; i++) {
 		n = i;
-		base = int2bigNumber(i);
-		temp = int2bigNumber(1);
+		base = int2bigint(i);
+		temp = int2bigint(1);
 		while(n--) {
 			temp = mul(base, temp);
 		}
@@ -39,51 +40,49 @@ int main() {
 	return 0;
 }
 
-char* strrev(char* str)  {  
-    char* begin = str;      
-    char* end = str + strlen(str) - 1;  
-    char swap;  
-  
-    while(begin < end) {
-        swap = *begin;  
-        *begin++ = *end;
-        *end-- = swap;
-    }   
-    return(str);  
-}  
-
-bigNumber int2bigNumber(int number) {
-	bigNumber r;
+bigint int2bigint(int number) {
+	bigint r = zero();
 	if(number == 0) {
-		return zero();
+		return r;
 	}
 	if(number > 0) {
-		r.sign = '+';
+		r.sign = 0;
 	} else {
-		r.sign = '-';
+		r.sign = 1;
 	}
 	r.length = 0;
 	while(number != 0) {
-		r.digit[r.length] = ('0' + number % 10);	
-		number /= 10;
+		r.digit[r.length] = number % modN;	
+		number /= modN;
 		r.length++;	
 	}
 	return r;
 }
 
-void print(bigNumber num) {
-	if(num.sign == '-') {
+void print(bigint num) {
+	int i;
+	if(num.sign == 1) {
 		printf("-");
 	}
-	printf("%s\n", strrev(num.digit));
+	printf("%d", num.digit[num.length - 1]); 
+	for(i = num.length - 2; i >= 0; i--) {
+		printf("%04d", num.digit[i]); 
+	}
+	printf("\n");
 }
 
-bigNumber zero() {
-	bigNumber temp = {'+', "0", 1};
+bigint zero() {
+	bigint temp;
+	int i;
+	for(i = 0; i < maxL; i++) {
+		temp.digit[i] = 0;
+	}
+	temp.sign = 0;
+	temp.length = 1;
 	return temp;
 }
 
-bigNumber plus(bigNumber a, bigNumber b) {
+bigint plus(bigint a, bigint b) {
 	int maxLen, i;
 	if(a.length > b.length) {
 		maxLen = a.length; 	
@@ -91,60 +90,42 @@ bigNumber plus(bigNumber a, bigNumber b) {
 		maxLen = b.length; 
 	}
 	for(i = 0; i < maxLen; i++) {
-		if('0' > b.digit[i] || b.digit[i] > '9') {
-			break;
+		if(i < b.length) {
+			a.digit[i] += b.digit[i];
 		}
-		if('0' <= a.digit[i] && a.digit[i] <= '9') {
-			a.digit[i] += (b.digit[i] - '0');
-		} else {
-			a.digit[i] = b.digit[i];
-		}
-	}
-	for(i = 0; i < maxLen - 1; i++) {
-		if(a.digit[i] > '9') {
-			a.digit[i] -= 10;
+		if(a.digit[i] >= modN) {
 			a.digit[i + 1]++;
-		}
+			a.digit[i] -= modN;
+		}	
 	}
-	a.length = maxLen;	
-	if(a.digit[maxLen - 1] > '9') {
-		a.digit[maxLen - 1] -= 10;
-		a.digit[maxLen] = '1';
-		a.digit[maxLen + 1] = '\0';
-		a.length++;
-	}
+	if(a.digit[maxLen] != 0) {
+		maxLen++;
+	}	
+	a.length = maxLen;
 	return a;
 }
 
-bigNumber mul(bigNumber a, bigNumber b) {
-	int i, j, sum[maxLength] = {0}, zeroFlag = 1;
+bigint mul(bigint a, bigint b) {
+	bigint sum = zero();
+	if((a.length == 1 && a.digit[0] == 0) || (b.length == 1 && b.digit[0] == 0)) {
+		return sum;
+	}
+	int i, j;
 	for(i = 0; i < a.length; i++) {
 		for(j = 0; j < b.length; j++) {
-			sum[i + j] += (a.digit[i] - '0') * (b.digit[j] - '0');
+			sum.digit[i + j] += a.digit[i] * b.digit[j];
 		}
 	}
-	int maxLen = a.length + b.length - 1;	
-	for(i = 0; i < maxLen; i++) {
-		if(sum[i] > 0) {
-			zeroFlag = 0;
+	sum.length = a.length + b.length - 1;	
+	for(i = 0; i < sum.length; i++) {
+		if(sum.digit[i] / modN >= 1) {
+			sum.digit[i + 1] += (sum.digit[i] / modN);
 		}
-		if(sum[i] / 10 >= 1) {
-			sum[i + 1] += (sum[i] / 10);
-			sum[i] %= 10;
-		}
-		a.digit[i] = sum[i] + '0';
+		sum.digit[i] %= modN;
 	}
-	if(sum[maxLen] != 0) {
-		zeroFlag = 0;
-		a.digit[maxLen] = sum[maxLen] + '0';
-		maxLen++;
+	if(sum.digit[sum.length] != 0) {
+		sum.length++;
 	}
-	if(zeroFlag == 1) {
-		a = zero();
-	} else {
-		a.digit[maxLen] = '\0';
-		a.length = maxLen;
-	}
-	return a;
+	return sum;
 }
 
