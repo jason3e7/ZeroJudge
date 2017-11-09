@@ -43,6 +43,7 @@ typedef struct {
 	int length;
 }bigNumber;
 
+bigNumber int2bigNumber(int);
 bigNumber str2bigNumber(char*);
 void print(bigNumber);
 int compare(bigNumber, bigNumber);
@@ -74,6 +75,25 @@ char* strrev(char* str)  {
     }   
     return(str);  
 }  
+
+bigNumber int2bigNumber(int number) {
+	bigNumber r;
+	if(number == 0) {
+		return zero();
+	}
+	if(number > 0) {
+		r.sign = '+';
+	} else {
+		r.sign = '-';
+	}
+	r.length = 0;
+	while(number != 0) {
+		r.digit[r.length] = ('0' + number % 10);	
+		number /= 10;
+		r.length++;	
+	}
+	return r;
+}
 
 bigNumber str2bigNumber(char* number) {
 	bigNumber r;
