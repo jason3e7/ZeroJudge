@@ -21,6 +21,7 @@ void print(bigint);
 bigint zero();
 bigint plus(bigint, bigint);
 bigint mul(bigint, bigint);
+bigint power(bigint, int);
 
 int main() {
 	int a, b;
@@ -30,6 +31,7 @@ int main() {
 		bNum = int2bigint(b);
 		print(plus(aNum, bNum));
 		print(mul(aNum, bNum));
+		print(power(aNum, 2));
 	}
 	return 0;
 }
@@ -121,5 +123,13 @@ bigint mul(bigint a, bigint b) {
 		sum.length++;
 	}
 	return sum;
+}
+
+bigint power(bigint a, int b) {
+	bigint base = int2bigint(1);
+	while(b--) { 
+		base = mul(base, a);
+	}
+	return base;
 }
 
