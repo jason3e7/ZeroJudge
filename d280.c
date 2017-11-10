@@ -3,21 +3,24 @@
   * @author Jason3e7
   * @algorithm math, DP
   * @date 201711111055
+  * @note very hate no description about "parameter boundary problem"
   */
 
 #include <stdio.h>
 
-int r[21][121] = {0};
+unsigned long long int r[21][121] = {0};
 
-int getComb(int n, int m) {
+unsigned long long int getComb(int n, int m) {
+	if(r[n][m] != -1) {
+		return r[n][m];
+	}
 	if(m > n * 6 || n * 1 > m) {
+		r[n][m]	= 0;
 		return 0;
 	}
 	if(n == 1) {
+		r[n][m] = 1;
 		return 1;
-	}
-	if(r[n][m] != -1) {
-		return r[n][m];
 	}
 	int i;
 	unsigned long long sum = 0;
@@ -39,9 +42,11 @@ int main() {
 	while(scanf("%d", &k) != EOF) {
 		while(k--) {
 			scanf("%d %d", &n, &m);
-			printf("%d\n", getComb(n, m));
+			if(n <= 0 || n > 20 || n > m || m * 6 < n) {
+				break;
+			}
+			printf("%llu\n", getComb(n, m));
 		}			
 	}
 	return 0;
 }
-
