@@ -100,6 +100,10 @@ void test() {
 	printBint(mul(int2bint(2000), int2bint(5)));
 	printf("10000 = ");
 	printBint(mul(int2bint(2), int2bint(5000)));
+	printf("99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999980000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001\n = \n");
+	printBint(mul(
+	str2bint("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"), 
+	str2bint("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999")));
 	
 	printf("power\n");
 	printf("1 = ");
@@ -327,16 +331,14 @@ bigint mul(bigint a, bigint b) {
 	for(i = 0; i < a.length; i++) {
 		for(j = 0; j < b.length; j++) {
 			sum.digit[i + j] += a.digit[i] * b.digit[j];
+			temp = sum.digit[i + j] / modN;
+			if(temp >= 1) {
+				sum.digit[i + j + 1] += temp;
+				sum.digit[i + j] %= modN;
+			}
 		}
 	}
 	sum.length = a.length + b.length - 1;	
-	for(i = 0; i < sum.length; i++) {
-		temp = sum.digit[i] / modN;
-		if(temp >= 1) {
-			sum.digit[i + 1] += temp;
-			sum.digit[i] %= modN;
-		}
-	}
 	if(sum.digit[sum.length] != 0) {
 		sum.length++;
 	}

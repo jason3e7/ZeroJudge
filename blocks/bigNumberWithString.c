@@ -69,11 +69,11 @@ bigNumber mod(bigNumber, bigNumber);
 bigNumber arithmetic(bigNumber, bigNumber, char);
 
 int main() {
-	char a[maxLength], operator;
+	char a[maxLength], operator, c[maxLength];
 	int b;
-	while(scanf("%s %c %d", a, &operator, &b) != EOF) {
+	while(scanf("%s %c %s", a, &operator, c) != EOF) {
 		bigNumber aNum = str2bigNumber(a);
-		bigNumber bNum = int2bigNumber(b);
+		bigNumber bNum = str2bigNumber(c);
 		print(arithmetic(aNum, bNum, operator));
 	}
 	return 0;
@@ -256,14 +256,14 @@ bigNumber mul(bigNumber a, bigNumber b) {
 	for(i = 0; i < a.length; i++) {
 		for(j = 0; j < b.length; j++) {
 			sum[i + j] += (a.digit[i] - '0') * (b.digit[j] - '0');
+			if(sum[i + j] / 10 >= 1) {
+				sum[i + j + 1] += (sum[i + j] / 10);
+				sum[i + j] %= 10;
+			}
 		}
 	}
 	int maxLen = a.length + b.length - 1;	
 	for(i = 0; i < maxLen; i++) {
-		if(sum[i] / 10 >= 1) {
-			sum[i + 1] += (sum[i] / 10);
-			sum[i] %= 10;
-		}
 		a.digit[i] = sum[i] + '0';
 	}
 	if(sum[maxLen] != 0) {
