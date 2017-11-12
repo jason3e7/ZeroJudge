@@ -1,8 +1,9 @@
  /*
-  * @file bigint.c
+  * @file d177.c
   * @author Jason3e7
   * @algorithm bigint
-  * @date 201711091936
+  * @date 201711121643
+  * @note use while OLE, IO question
   */ 
  
 #include <stdio.h>
@@ -19,7 +20,6 @@ typedef struct {
 
 bigint str2bint(char*);
 bigint int2bint(int);
-int bint2int(bigint);
 void printBint(bigint);
 bigint zeroBint();
 int cmpBint(bigint, bigint);
@@ -30,142 +30,19 @@ bigint mul(bigint, bigint);
 bigint mulInt(bigint, int);
 bigint div(bigint, bigint);
 bigint mod(bigint, bigint);
-bigint power(bigint, bigint);
 bigint powInt(bigint, int);
 int powIi(int, int);
 int getDigitLen(bigint);
-bigint arithmetic(bigint, bigint, char);
-
-void test() {
-	printf("str2bint\n");
-	printf("0 = ");
-	printBint(str2bint("0"));
-	printf("1 = ");
-	printBint(str2bint("1"));
-	printf("10000 = ");
-	printBint(str2bint("10000"));
-	
-	printf("int2bint\n");
-	printf("0 = ");
-	printBint(int2bint(0));
-	printf("1 = ");
-	printBint(int2bint(1));
-	printf("10000 = ");
-	printBint(int2bint(10000));
-	
-	printf("bint2int\n");
-	printf("10000 = %d\n", bint2int(int2bint(10000)));
-	
-	printf("zeroBint\n");
-	printf("0 = ");
-	printBint(zeroBint());
-	
-	printf("cmpBint\n");
-	printf("1 = %d\n", cmpBint(int2bint(1), int2bint(0)));
-	printf("0 = %d\n", cmpBint(int2bint(0), int2bint(0)));
-	printf("-1 = %d\n", cmpBint(int2bint(0), int2bint(1)));
-	
-	printf("checkBintZero\n");
-	printf("1 = %d\n", checkBintZero(zeroBint()));
-	
-	printf("add\n");
-	printf("0 = ");
-	printBint(add(int2bint(0), int2bint(0)));	
-	printf("1 = ");
-	printBint(add(int2bint(1), int2bint(0)));
-	printf("1 = ");
-	printBint(add(int2bint(0), int2bint(1)));
-	printf("10000 = ");
-	printBint(add(int2bint(1), int2bint(9999)));
-
-	printf("sub\n");
-	printf("0 = ");
-	printBint(sub(int2bint(0), int2bint(0)));	
-	printf("1 = ");
-	printBint(sub(int2bint(1), int2bint(0)));
-	printf("-1 = ");
-	printBint(sub(int2bint(0), int2bint(1)));
-	printf("9999 = ");
-	printBint(sub(int2bint(10000), int2bint(1)));
-	printf("-9999 = ");
-	printBint(sub(int2bint(1), int2bint(10000)));
-	
-	printf("mul\n");
-	printf("0 = ");
-	printBint(mul(int2bint(0), int2bint(0)));	
-	printf("0 = ");
-	printBint(mul(int2bint(1), int2bint(0)));
-	printf("0 = ");
-	printBint(mul(int2bint(0), int2bint(1)));
-	printf("10000 = ");
-	printBint(mul(int2bint(2000), int2bint(5)));
-	printf("10000 = ");
-	printBint(mul(int2bint(2), int2bint(5000)));
-	printf("99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999980000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001\n = \n");
-	printBint(mul(
-	str2bint("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999"), 
-	str2bint("9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999")));
-	
-	printf("power\n");
-	printf("1 = ");
-	printBint(power(int2bint(1000), int2bint(0)));	
-	printf("1024 = ");
-	printBint(power(int2bint(2), int2bint(10)));
-	printf("2147483648 = ");
-	printBint(power(int2bint(2), int2bint(31)));
-	
-	printf("powInt\n");
-	printf("1 = ");
-	printBint(powInt(int2bint(1000), 0));	
-	printf("1024 = ");
-	printBint(powInt(int2bint(2), 10));
-	printf("2147483648 = ");
-	printBint(powInt(int2bint(2), 31));
-	
-	printf("getDigitLen\n");
-	printf("1 = %d\n", getDigitLen(int2bint(0)));	
-	printf("1 = %d\n", getDigitLen(zeroBint()));	
-	printf("1 = %d\n", getDigitLen(int2bint(1)));	
-	printf("5 = %d\n", getDigitLen(int2bint(10000)));	
-	
-	printf("div\n");
-	printf("0 = ");
-	printBint(div(int2bint(0), int2bint(1)));	
-	printf("1 = ");
-	printBint(div(int2bint(1), int2bint(1)));
-	printf("0 = ");
-	printBint(div(int2bint(2), int2bint(5)));
-	printf("5000 = ");
-	printBint(div(int2bint(10000), int2bint(2)));
-	printf("3333 = ");
-	printBint(div(int2bint(10000), int2bint(3)));
-	printf("1000 = ");
-	printBint(div(int2bint(1000000), int2bint(1000)));
-	printf("? = ");
-	printBint(div(int2bint(1), int2bint(0)));
-	
-	printf("div\n");
-	printf("0 = ");
-	printBint(mod(int2bint(0), int2bint(1)));	
-	printf("0 = ");
-	printBint(mod(int2bint(1), int2bint(1)));
-	printf("2 = ");
-	printBint(mod(int2bint(2), int2bint(5)));
-	printf("1 = ");
-	printBint(mod(int2bint(10000), int2bint(3)));
-	printf("280 = ");
-	printBint(mod(int2bint(10000), int2bint(360)));
-}
 
 int main() {
-	test();
-	char c;
-	char a[maxL], b[maxL];
-	bigint aNum, bNum;
-	while(scanf("%s %c %s", a, &c, b) != EOF) {	
-		aNum = str2bint(a);
-		bNum = str2bint(b);
-		printBint(arithmetic(aNum, bNum, c));
+	int n;
+	char line[maxL];
+	bigint num;
+	scanf("%d", &n);
+	while(n--) {
+		scanf("%s", line);
+		num = str2bint(line);
+		printBint(mod(num, int2bint(360)));
 	}
 	return 0;
 }
@@ -201,21 +78,6 @@ bigint int2bint(int number) {
 		r.digit[r.length] = number % modN;	
 		number /= modN;
 		r.length++;	
-	}
-	return r;
-}
-
-int bint2int(bigint number) {
-	int r = 0, i, base = 1;
-	if(number.length == 1) {
-		return number.digit[0];
-	}
-	for(i = 0; i < number.length; i++) {
-		r += (number.digit[i] * base);
-		base *= modN;
-	}
-	if(number.sign == 1) {
-		r *= -1;
 	}
 	return r;
 }
@@ -325,10 +187,6 @@ bigint sub(bigint a, bigint b) {
 	return a;
 }
 
-bigint subInt(bigint a, int b) {
-	return sub(a, int2bint(b));
-}
-
 bigint mul(bigint a, bigint b) {
 	bigint sum = zeroBint();
 	if((a.length == 1 && a.digit[0] == 0) || (b.length == 1 && b.digit[0] == 0)) {
@@ -413,15 +271,6 @@ bigint mod(bigint a, bigint b) {
 	return sub(a, mul(div(a, b), b));
 }
 
-bigint power(bigint a, bigint b) {
-	bigint base = int2bint(1);	
-	while(checkBintZero(b) != 1) { 
-		base = mul(base, a);
-		b = subInt(b, 1);
-	}
-	return base;
-}
-
 bigint powInt(bigint a, int b) {
 	bigint base = int2bint(1);
 	while(b--) { 
@@ -438,31 +287,3 @@ int powIi(int a, int b) {
 	return base;
 }
 
-bigint arithmetic(bigint a, bigint b, char operator) {
-	switch (operator) {
-		case 'c':
-			return int2bint(cmpBint(a, b));
-			break;
-		case '+':
-			return add(a, b);
-			break;
-		case '-':
-			return sub(a, b);
-			break;
-		case '*':
-			return mul(a, b);
-			break;
-		case '/':
-			return div(a, b);
-			break;
-		case '%':
-			return mod(a, b);
-			break;
-		case '^':
-			return power(a, b);
-			break;;
-		default : 
-			break;
-	}
-	return zeroBint();
-}
