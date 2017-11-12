@@ -29,6 +29,7 @@ bigint sub(bigint, bigint);
 bigint mul(bigint, bigint);
 bigint mulInt(bigint, int);
 bigint div(bigint, bigint);
+bigint mod(bigint, bigint);
 bigint power(bigint, bigint);
 bigint powInt(bigint, int);
 int powIi(int, int);
@@ -142,6 +143,18 @@ void test() {
 	printBint(div(int2bint(1000000), int2bint(1000)));
 	printf("? = ");
 	printBint(div(int2bint(1), int2bint(0)));
+	
+	printf("div\n");
+	printf("0 = ");
+	printBint(mod(int2bint(0), int2bint(1)));	
+	printf("0 = ");
+	printBint(mod(int2bint(1), int2bint(1)));
+	printf("2 = ");
+	printBint(mod(int2bint(2), int2bint(5)));
+	printf("1 = ");
+	printBint(mod(int2bint(10000), int2bint(3)));
+	printf("280 = ");
+	printBint(mod(int2bint(10000), int2bint(360)));
 }
 
 int main() {
@@ -396,6 +409,10 @@ bigint div(bigint a, bigint b) {
 	return temp;
 }
 
+bigint mod(bigint a, bigint b) {
+	return sub(a, mul(div(a, b), b));
+}
+
 bigint power(bigint a, bigint b) {
 	bigint base = int2bint(1);	
 	while(checkBintZero(b) != 1) { 
@@ -439,6 +456,7 @@ bigint arithmetic(bigint a, bigint b, char operator) {
 			return div(a, b);
 			break;
 		case '%':
+			return mod(a, b);
 			break;
 		case '^':
 			return power(a, b);
