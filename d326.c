@@ -6,14 +6,13 @@
   */ 
  
 #include <stdio.h>
-#include <math.h>
 
 int set_bit(int v, int b) {
-	return (v | (int)pow(2, b));
+	return (v | (1 << b));
 }
 
 int unset_bit(int v, int b) {
-	return v - (v & (int)pow(2, b));
+	return v - (v & (1 << b));
 }
 
 int check_bit(int v, int a, int b) {
@@ -62,7 +61,6 @@ void test() {
 }
 
 int main(void) {
-
     int i, v, bit, isSet;
     while(scanf("%d %d %d", &v, &bit, &isSet) == 3)
     {
