@@ -8,15 +8,15 @@
 #include <stdio.h>
 
 int set_bit(int v, int b) {
-	return (v | (1 << b));
+	return v | (1 << b);
 }
 
 int unset_bit(int v, int b) {
-	return v - (v & (1 << b));
+	return v & ~(1 << b);
 }
 
 int check_bit(int v, int a, int b) {
-	return ((v >> b) & 1);
+	return (v >> b) & 1;
 }
 
 void test() {
