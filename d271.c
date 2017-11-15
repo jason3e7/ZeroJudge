@@ -3,7 +3,7 @@
   * @author Jason3e7
   * @algorithm matrix, fast power, math
   * @UVa 11582
-  * @date 201711131029
+  * @date 201711151600
   * @note a451.c very interesting 
 2 ^ 64 = 18446744073709551616
 % n => n ^ 2 repeat
