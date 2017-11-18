@@ -16,8 +16,14 @@ int checkPrime(int n) {
 	} else if(n <= 1) {
 		return 0;
 	}
+	if(n == 2) {
+		return 1;
+	}
+	if(n % 2 == 0) {
+		return 0;
+	}
 	int i, temp = (int)sqrt(n);
-	for(i = 2; i <= temp; i++) {
+	for(i = 3; i <= temp; i += 2) {
 		if(n % i == 0) {
 			return 0;
 		}
@@ -33,6 +39,8 @@ void test() {
 	printf("0 = %d\n", checkPrime(4));
 	printf("1 = %d\n", checkPrime(5));
 	printf("1 = %d\n", checkPrime(11));
+	printf("0 = %d\n", checkPrime(121));
+	printf("1 = %d\n", checkPrime(524287));
 	printf("1 = %d\n", checkPrime(2147483647));
 	clock_t end = clock();
 	printf("time:%lf\n", (double)(end - begin) / CLOCKS_PER_SEC);
