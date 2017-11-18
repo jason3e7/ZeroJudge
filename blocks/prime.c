@@ -7,6 +7,7 @@
   */
 
 #include <stdio.h>
+#include <math.h>
 #include <time.h>
 
 int checkPrime(int n) {
@@ -15,7 +16,7 @@ int checkPrime(int n) {
 	} else if(n <= 1) {
 		return 0;
 	}
-	int i, temp = n / 2;
+	int i, temp = (int)sqrt(n);
 	for(i = 2; i <= temp; i++) {
 		if(n % i == 0) {
 			return 0;
