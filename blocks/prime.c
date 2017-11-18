@@ -44,6 +44,10 @@ void test() {
 	printf("1 = %d\n", checkPrime(524287));
 	printf("0 = %d\n", checkPrime(994009));
 	printf("1 = %d\n", checkPrime(2147483647));
+	int i;
+	for(i = 2147483647; i >= 2147000000; i--) {
+		checkPrime(i);
+	}
 	clock_t end = clock();
 	printf("time:%lf\n", (double)(end - begin) / CLOCKS_PER_SEC);
 }
