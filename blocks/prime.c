@@ -5,26 +5,40 @@
   * @date 201711181505
   * @note 2147483647 is a prime
   * sieve of Eratosthenes
+  * bitset 
+  * n>>5 => n / 32
+  * n&31 => n & 11111 => 0 ~ 31 => n % 32
+  * n&1 => get end of bit
+  *
+  * bitset[n>>5] >>(n&31) &1
+  * get (n / 32) memory >> (n % 32) &1
+  *
+  * bitset[n>>5] |= 1<<(x&31)
+  * get (n / 32) memory |= (1 << (n % 32))
   */
 
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
-#define max 1000000
+#define max 2147483647
 
-int prime[max] = {0};
+int bitset[(max>>5) + 1] = {0};
+
+int  get(int n) { return bitset[n>>5]>>(n&31)&1; }
+void set(int n) { bitset[n>>5] |= 1<<(n&31); }
 
 void primeTable() {
 	unsigned int i, j;
-	for(i = 0; i < max; i++) {
-		prime[i] = 0;
+	int temp = (max>>5)+1;
+	for(i = 0; i < temp; i++) {
+		bitset[i] = 0;
 	}
-	prime[0] = 1;
-	prime[1] = 1;
+	set(0);
+	set(1);
 	for(i = 2; i <= max; i++) {
-		if(prime[i] == 0) {
+		if(get(i) == 0) {
 			for(j = i + i; j <= max; j += i) {
-				prime[j] = 1;
+				set(j);
 			}
 		}
 	}
@@ -36,7 +50,7 @@ int checkPrime(int n) {
 	} else if(n <= 1) {
 		return 0;
 	}
-	if(prime[n] == 0) {
+	if(get(n) == 0) {
 		return 1;
 	} else {
 		return 0;
@@ -73,13 +87,11 @@ void test() {
 	printf("1 = %d\n", checkPrime(65537));
 	printf("1 = %d\n", checkPrime(524287));
 	printf("0 = %d\n", checkPrime(994009));
-	/*
 	printf("1 = %d\n", checkPrime(2147483647));
 	int i;
 	for(i = 2147483647; i >= 2147000000; i--) {
 		checkPrime(i);
 	}
-	*/
 	clock_t end = clock();
 	printf("time:%lf\n", (double)(end - begin) / CLOCKS_PER_SEC);
 }
@@ -96,4 +108,5 @@ int main() {
 	}
 	return 0;
 }
+
 
