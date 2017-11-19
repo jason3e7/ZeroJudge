@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <math.h>
 #define max 10000001
+#define pSumMax 10000
 
 int bitset[(max>>5) + 1] = {0};
 
@@ -37,7 +38,12 @@ void primeTable() {
 	}
 }
 
+char pSum[pSumMax];
+
 int getPrimeCount(int n) {
+	if(n < pSumMax) {
+		return pSum[n];
+	}
 	if(get(n) == 0) {
 		return 1;
 	}
@@ -55,7 +61,21 @@ int getPrimeCount(int n) {
 
 int main() {
 	primeTable();
-	int n, i, sum, count = 1;
+	pSum[0] = 0;
+	pSum[1] = 0;
+	int i, j;
+	for(i = 2; i < pSumMax; i++) {
+		if(get(i) == 0) {
+			pSum[i] = 1;
+		}
+		for(j = 2; j < pSumMax; j++) {
+			if(get(j) == 0 && i % j == 0) {
+				pSum[i] = pSum[i / j] + 1;
+				break;
+			}
+		}
+	}
+	int n, sum, count = 1;
     while(scanf("%d", &n) != EOF) {
 		if(n < 0) {
 			break;
