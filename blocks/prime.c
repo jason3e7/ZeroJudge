@@ -34,13 +34,13 @@ void primeTable() {
 	}
 	set(0);
 	set(1);
-	temp = max / 2;
+	temp = (int)sqrt(max);
 	for(i = 2; i <= max; i++) {
 		if(i > temp) {
 			break;
 		}
 		if(get(i) == 0) {
-			for(j = i + i; j <= max; j += i) {
+			for(j = i * i; j <= max; j += i) {
 				set(j);
 				if(i > max - j) {
 					break;
