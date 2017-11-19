@@ -15,6 +15,10 @@
   *
   * bitset[n>>5] |= 1<<(x&31)
   * get (n / 32) memory |= (1 << (n % 32))
+  *
+  * reverse setting because base number advance setting
+  * 2 -> 4 => 6 => 8 X
+  * 2 -> 8 => 6 => 4 O 
   */
 
 #include <stdio.h>
@@ -28,7 +32,7 @@ int  get(int n) { return bitset[n>>5]>>(n&31)&1; }
 void set(int n) { bitset[n>>5] |= 1<<(n&31); }
 
 void primeTable() {
-	int i, j, temp = (max>>5)+1, gap;
+	int i, j, k, temp = (max>>5)+1;
 	for(i = 0; i < temp; i++) {
 		bitset[i] = 0;
 	}
@@ -37,9 +41,10 @@ void primeTable() {
 	temp = (int)sqrt(max);
 	for(i = 2; i <= temp; i++) {
 		if(get(i) == 0) {
-			gap = max - i;
-			for(j = i * i; j <= gap; j += i) {
-				set(j);
+			for(k = max / i, j = i * k; k >= i; j -= i, k--) {
+				if(get(k) == 0) {
+					set(j);
+				}
 			}
 		}
 	}
@@ -109,5 +114,4 @@ int main() {
 	}
 	return 0;
 }
-
 
