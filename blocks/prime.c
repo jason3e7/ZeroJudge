@@ -28,27 +28,19 @@ int  get(int n) { return bitset[n>>5]>>(n&31)&1; }
 void set(int n) { bitset[n>>5] |= 1<<(n&31); }
 
 void primeTable() {
-	int i, j, temp = (max>>5)+1;
+	int i, j, temp = (max>>5)+1, gap;
 	for(i = 0; i < temp; i++) {
 		bitset[i] = 0;
 	}
 	set(0);
 	set(1);
 	temp = (int)sqrt(max);
-	for(i = 2; i <= max; i++) {
-		if(i > temp) {
-			break;
-		}
+	for(i = 2; i <= temp; i++) {
 		if(get(i) == 0) {
-			for(j = i * i; j <= max; j += i) {
+			gap = max - i;
+			for(j = i * i; j <= gap; j += i) {
 				set(j);
-				if(i > max - j) {
-					break;
-				}
 			}
-		}
-		if(i == max) {
-			break;
 		}
 	}
 }
