@@ -8,65 +8,64 @@
   * prime[445] = 3137 
   * 2 ^ 24 = 16777216 > 10000002
   */ 
- 
-#include <stdio.h>
 
-int prime[5000], point;
+#include <stdio.h>
+#include <math.h>
+#define max 10000001
+
+int bitset[(max>>5) + 1] = {0};
+
+int  get(int n) { return bitset[n>>5]>>(n&31)&1; }
+void set(int n) { bitset[n>>5] |= 1<<(n&31); }
 
 void primeTable() {
-	int i, j, flag;
-	prime[0] = 2;
-	point = 1;
-	for(i = 3; i * i < 10000002 ;i += 2) {
-		flag = 1;
-		for(j = 1; j < point; j++) {
-			if(i % prime[j] == 0) {
-				flag = 0;
-				break;
+	int i, j, k, temp = (max>>5)+1;
+	for(i = 0; i < temp; i++) {
+		bitset[i] = 0;
+	}
+	set(0);
+	set(1);
+	temp = (int)sqrt(max);
+	for(i = 2; i <= temp; i++) {
+		if(get(i) == 0) {
+			for(k = max / i, j = i * k; k >= i; j -= i, k--) {
+				if(get(k) == 0) {
+					set(j);
+				}
 			}
-		}
-		if(flag == 1) {
-			prime[point] = i;
-			point++;
 		}
 	}
 }
 
-char pSum[10000002];
-
-void pSumTable() {
-	int i, j;
-	for(i = 0; i < 10000002; i++) {
-		pSum[i] = 0;
+int getPrimeCount(int n) {
+	if(get(n) == 0) {
+		return 1;
 	}
-	for(i = 2; i < 10000001; i++) {
-		for(j = 0; i >= prime[j] && j < point; j++) {
-			if(i % prime[j] == 0) {
-				pSum[i] = pSum[i / prime[j]] + 1;
-				break;
-			}
-		}
-		if(pSum[i] == 0) {
-			pSum[i] = 1;
+	if(n % 2 == 0) {
+		return getPrimeCount(n / 2) + 1;
+	}
+	int i;
+	for(i = 3; i < n; i += 2) {
+		if(get(i) == 0 && n % i == 0) {
+			return getPrimeCount(n / i) + 1;
 		}
 	}
+	return 0;
 }
 
 int main() {
 	primeTable();
-	pSumTable();
-	int n, i, sum, out, count = 1;
+	int n, i, sum, count = 1;
     while(scanf("%d", &n) != EOF) {
 		if(n < 0) {
 			break;
 		}
-		sum = 0, out = 0;
+		sum = 0;
 		for(i = 2; sum < n; i++) {
-			sum += pSum[i];
-			out = i;
+			sum += getPrimeCount(i);
 		}
 		if(sum == n) {
-			printf("Case %d: %d!\n", count, out);
+			printf("Case %d: %d!\n", count, i - 1);
 		} else {
 			printf("Case %d: Not possible.\n", count);
 		}
