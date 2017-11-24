@@ -36,7 +36,7 @@ void primeTable() {
 
 int main() {
 	primeTable();
-	int t, n, m, i, sum, count, base, temp;
+	int t, n, m, i, min, count, base, temp;
 	int up[5000], down[5000];
 	while(scanf("%d", &t) != EOF) {
 		count = 1;
@@ -92,26 +92,22 @@ int main() {
 				}
 			}
 			*/	
-			sum = 0;
-			while(1) {
-				for(i = 2; i < 5000; i++) {
-					if(down[i] != 0) {
-						up[i] -= down[i];
-						temp = up[i];
-					}
-					if(temp < 0) {
-						break;
+			min = 10000;
+			for(i = 2; i < 5000; i++) {
+				if(down[i] != 0) {
+					temp = up[i] / down[i];
+					if(min > temp) {
+						min = temp;
 					}
 				}
-				if(temp < 0) {
+				if(min == 0) {
 					break;
 				}
-				sum++;
 			}
-			if(sum == 0) {
+			if(min == 0) {
 				printf("Case %d:\nImpossible to divide\n", count);
 			} else {
-				printf("Case %d:\n%d\n", count, sum);
+				printf("Case %d:\n%d\n", count, min);
 			}
 			count++;
 		}
