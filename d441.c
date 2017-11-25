@@ -4,6 +4,12 @@
   * @algorithm prime
   * @UVa 10780
   * @date 201711251027
+  * @note 3 27
+  * 27 / 3  = 9
+  * 27 / 9  = 3
+  * 27 / 27 = 1
+  * 9 + 3 + 1 = 14
+  * UVa WA at while !?
   */
 
 #include <stdio.h>
@@ -36,81 +42,49 @@ void primeTable() {
 
 int main() {
 	primeTable();
-	int t, n, m, i, min, count, base, temp;
-	int up[5000], down[5000];
-	while(scanf("%d", &t) != EOF) {
-		count = 1;
-		while(t--) {
-			scanf("%d %d", &m, &n);
-			for(i = 0; i < 5000; i++) {
-				up[i] = 0;
-				down[i] = 0;
-			}			
-			base = 2;
-			while(m > 1) {
-				if(get(base) == 0) {
-					while(m % base == 0) {
-						m /= base;
-						down[base]++;
+	int t, n, m, i, count, temp, minT, baseT, divT;
+	count = 1;
+	scanf("%d", &t);
+	while(t--) {
+		scanf("%d %d", &m, &n);
+		minT = max;
+		i = 2; 
+		while(i <= m) {
+			baseT = 0;
+			divT = 0;
+			if(get(i) == 0) {
+				temp = m;
+				while(temp % i == 0) {
+					temp /= i;
+					baseT++;
+				}
+					
+				if(baseT > 0) {
+					temp = i;
+					while(n >= temp) {
+						divT += (n / temp);
+						temp *= i;
 					}
-				}			
-				if(base == 2) {
-					base++;
-				} else {
-					base+=2;
-				}
-			}
-			for(i = 2; i <= n; i++) {
-				if(i >= 5000 && get(i) == 0) {
-					continue;
-				}
-				temp = i;
-				base = 2;
-				while(temp > 1) {
-					if(get(base) == 0) {
-						while(temp % base == 0) {
-							temp /= base;
-							up[base]++;
-						}
-					}			
-					if(base == 2) {
-						base++;
-					} else {
-						base+=2;
+				
+					temp = divT / baseT;
+					if(minT > temp) {
+						minT = temp;
 					}
 				}
 			}	
-			/*
-			for(i = 2; i < 5000; i++) {
-				if(down[i] != 0) {
-					printf("%d %d\n", i, down[i]);
-				}
-			}
-			for(i = 2; i < 5000; i++) {
-				if(up[i] != 0) {
-					printf("%d %d\n", i, up[i]);
-				}
-			}
-			*/	
-			min = 10000;
-			for(i = 2; i < 5000; i++) {
-				if(down[i] != 0) {
-					temp = up[i] / down[i];
-					if(min > temp) {
-						min = temp;
-					}
-				}
-				if(min == 0) {
-					break;
-				}
-			}
-			if(min == 0) {
-				printf("Case %d:\nImpossible to divide\n", count);
+
+			if(i == 2) {
+				i++;
 			} else {
-				printf("Case %d:\n%d\n", count, min);
+				i += 2;
 			}
-			count++;
+		}	
+		if(minT == 0) {
+			printf("Case %d:\nImpossible to divide\n", count);
+		} else {
+			printf("Case %d:\n%d\n", count, minT);
 		}
+		count++;	
 	}
 	return 0;
 }
