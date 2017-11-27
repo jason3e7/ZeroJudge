@@ -34,51 +34,50 @@ char* fix_fgets(char* str, int n) {
 
 int main() {
 	int n, len, i, point;
-	char line[128], stack[128];
+	char line[200], stack[200];
 	scanf("%d", &n); 
-		clean_stdin();
-		while(n--) {
-			fix_fgets(line, 128);
-			len = strlen(line);
-			point = 0;
-			for(i = 0; i < len; i++) {
-				switch(line[i]) {
-					case ' ' :
-						break;
-					case '(' :
-					case '[' :
-						stack[point] = line[i];
-						point++;
-						break;
-					case ')' :
-						if(stack[point - 1] == '(') {
-							point--;
-						} else {
-							point = -1;
-						}
-						break;
-					case ']' :
-						if(stack[point - 1] == '[') {
-							point--;
-						} else {
-							point = -1;
-						}
-						break;
-					default :
-						point = -1;
-						break;
-				} 
-				if(point < 0) {
+	clean_stdin();
+	while(n--) {
+		fix_fgets(line, 200);
+		len = strlen(line);
+		point = 0;
+		for(i = 0; i < len; i++) {
+			switch(line[i]) {
+				case ' ' :
 					break;
-				}
-			}
-			if(point == 0) {
-				printf("Yes\n");
-			} else {
-				printf("No\n");
+				case '(' :
+				case '[' :
+					stack[point] = line[i];
+					point++;
+					break;
+				case ')' :
+					if(stack[point - 1] == '(') {
+						point--;
+					} else {
+						point = -1;
+					}
+					break;
+				case ']' :
+					if(stack[point - 1] == '[') {
+						point--;
+					} else {
+						point = -1;
+					}
+					break;
+				default :
+					point = -1;
+					break;
+			} 
+			if(point < 0) {
+				break;
 			}
 		}
-	
+		if(point == 0) {
+			printf("Yes\n");
+		} else {
+			printf("No\n");
+		}
+	}
 	return 0;
 }
 
