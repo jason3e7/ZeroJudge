@@ -18,10 +18,21 @@ f[n - 2] => if second choice is first location, possible set.
 f[n - 1] => if second choice is not first location, possible set.
 
 f[2] = 1;
-   
-2xxx       1xx    3xx 4xx  
-3xxx  * (  x1x +  x2x x4x  )
-4xxx       xx1    xx2 xx3
+  
+f[n - 1] * (n - 1)
+ 
+  132x                         xxx1
+( 312x ) choice swap number, ( xxx2 ) swap location is not second location,
+                               xxx3
+
+
+f[n - 2] * (n - 1)
+
+choice swap number, swap location is second location,
+
+  4xxo           xxx1
+( x4xo ) < = > ( xxx2 )
+  xx4o           xxx3 
 
   */
 
