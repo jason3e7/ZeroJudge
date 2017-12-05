@@ -11,21 +11,22 @@
 #include <stdio.h>
 
 int main() {
-	int b, p, m, i, base, output;
+	int b, p, m, i, base, r;
 	while(scanf("%d %d %d", &b, &p, &m) != EOF) {
 		if(b == 0 || m == 1) {
 			printf("0\n");
 			continue;
 		}
-		output = 1;
-		base = b % p;
-		for(i = 0; (1 << i) <= p; i++) {
-			if (p & (1 << i)) {
-				output = ((output % m) * (base % m) % m);
+		r = 1;
+		base = b % m;
+		while(p != 0) {
+			if (p % 2 == 1) {
+				r = ((r % m) * (base % m) % m);
 			}
+			p /= 2;
 			base = ((base % m) * (base % m) % m);
 		}
-		printf("%d\n", output);
+		printf("%d\n", r);
 	}
 	return 0;
 }
