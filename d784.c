@@ -3,6 +3,7 @@
   * @author Jason3e7
   * @algorithm DP
   * @date 201712291032
+  * @note if sum < zero then cut.
   */
 
 #include <stdio.h>
