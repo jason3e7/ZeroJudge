@@ -15,11 +15,12 @@ int g(int n) {
 	return 2;
 }
 
+int map[6] = {2, 5, 5, 2, -1, -1};
 int h(int n) {
 	if(n < 2) {
 		return -1;
 	}
-	return 2 + h(n - 1) - h(n - 2);
+	return map[(n - 2) % 6];
 }
 
 int f(int n) {
