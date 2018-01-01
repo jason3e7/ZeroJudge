@@ -23,6 +23,7 @@ int h(int n) {
 	return map[(n - 2) % 6];
 }
 
+int out[610];
 int f(int n) {
 	int temp = h(n), temp2;
 	if(n > temp) {
@@ -36,9 +37,24 @@ int f(int n) {
 }
 
 int main() {
+	int temp, i;
+	out[-1 + 300] = 1;
+	out[0 + 300] = 2;
+	out[1 + 300] = 3;
+	out[2 + 300] = 1;
+	out[3 + 300] = -1;
+	out[4 + 300] = -1;
+	out[5 + 300] = -3;
+	for(i = 6; i <= 299; i++) {
+		out[i + 300] = out[i + 299] - h(i);
+	}
 	int n;
 	while(scanf("%d", &n) != EOF) {
-		printf("%d\n", f(n));
+		if(-1 <= n && n <= 299) {
+			printf("%d\n", out[n + 300]);
+		} else { 
+			printf("%d\n", f(n));
+		}
 	}
 	return 0;
 }
