@@ -36,6 +36,16 @@ int f(int n) {
 	return 1;
 }
 
+
+int fPlus(int n) {
+	if(-1 <= n && n <= 7) {
+		return out[n + 300];
+	}
+	int fMap[6] = {2, 7, 12, 14, 13, 12};
+	n -= 8;
+	return out[7 + 300] - 12 * (n / 6) - fMap[n % 6];
+}
+
 int main() {
 	int temp, i;
 	out[-1 + 300] = 1;
@@ -45,13 +55,12 @@ int main() {
 	out[3 + 300] = -1;
 	out[4 + 300] = -1;
 	out[5 + 300] = -3;
-	for(i = 6; i <= 299; i++) {
-		out[i + 300] = out[i + 299] - h(i);
-	}
+	out[6 + 300] = -2;
+	out[7 + 300] = -1;
 	int n;
 	while(scanf("%d", &n) != EOF) {
 		if(-1 <= n && n <= 299) {
-			printf("%d\n", out[n + 300]);
+			printf("%d\n", fPlus(n));
 		} else { 
 			printf("%d\n", f(n));
 		}
