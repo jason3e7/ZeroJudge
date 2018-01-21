@@ -9,20 +9,19 @@
 #include <stdio.h>
 
 int main() {
-	int i, j, temp, out[1001];
+	int addNum, i, temp, out[501];
 	out[0] = 0;
 	out[1] = 1;
-	for(i = 2; i <= 1000; i += 2) {
-		out[i] = 1;
-		temp = i / 2;
-		for(j = 1; j <= temp; j++) {
-			out[i] += out[j];
-		}
-		out[i + 1] = out[i];
+	out[2] = 2;
+	addNum = 2;
+	for(i = 3; i <= 500; i+=2) {
+		out[i] = out[i - 1] + out[addNum];
+		out[i + 1] = out[i] + out[addNum];
+		addNum++;
 	}
 	int n;
 	while(scanf("%d", &n) != EOF) {
-		printf("%d\n", out[n]);
+		printf("%d\n", out[(n / 2) + 1]);
 	}
 	return 0;
 }
