@@ -1,7 +1,7 @@
  /*
   * @file b900.c
   * @author Jason3e7
-  * @algorithm Simulation
+  * @algorithm array
   * @date 201802120813
   */
 
@@ -9,40 +9,40 @@
 #include <string.h>
 
 int main() {
-	int i, j, w, h, local, map[12][100], len;
+	int i, j, w, h, number[10], temp, len, local;
 	char line[20];
 	while(scanf("%d %d", &w, &h) != EOF) {
-		for(j = 0; j < h; j++) {
-			for(i = 0; i <= w; i++) {
-				map[i][j] = 0;
-			}
+		for(i = 0; i < w; i++) {
+			number[i] = i + 1;
 		}
 		for(j = 0; j < h; j++) {
 			scanf("%s", line);
 			len = strlen(line);
 			for(i = 0; i < len; i++) {
 				if (line[i] == '-') {
-					map[(i + 1) / 2][j] = 1;
+					local = i / 2;
+					temp = number[local];
+					number[local] = number[local + 1];
+					number[local + 1] = temp;
 				}
 			}
 		}
 		for(i = 1; i <= w; i++) {
-			local = i;
-			for(j = 0; j < h; j++) {
-				if(map[local - 1][j] == 1) {
-					local--;
-				} else if(map[local][j] == 1) {
-					local++;
-				} 
-			}
-			if(i == 1) {
-				printf("%d", local);
-			} else {
-				printf(" %d", local);
+			for(j = 0; j < w; j++) {
+				if(number[j] == i) {
+					if(i == 1) {
+						printf("%d", j + 1);
+					} else {
+						printf(" %d", j + 1);
+					}
+					break;
+				}
 			}
 		}
 		printf("\n");
 	}
 	return 0;
 }
+
+
 
