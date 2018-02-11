@@ -6,36 +6,26 @@
   */
 
 #include <stdio.h>
+#include <string.h>
 
 int main() {
-	int i, j, w, h, local, map[12][100];
-	char c;
+	int i, j, w, h, local, map[12][100], len;
+	char line[20];
 	while(scanf("%d %d", &w, &h) != EOF) {
 		for(j = 0; j < h; j++) {
-			map[0][j] = 0;
-			map[w][j] = 0;
+			for(i = 0; i <= w; i++) {
+				map[i][j] = 0;
+			}
 		}
 		for(j = 0; j < h; j++) {
-			i = 1;
-			while(i < w) {
-				c = getchar();
-				if (c == '.') {
-					map[i][j] = 0;
-					i++;
-				} else if (c == '-') {
-					map[i][j] = 1;
-					i++;
+			scanf("%s", line);
+			len = strlen(line);
+			for(i = 0; i < len; i++) {
+				if (line[i] == '-') {
+					map[(i + 1) / 2][j] = 1;
 				}
 			}
 		}
-		/*	
-		for(j = 0; j < h; j++) {
-			for(i = 0; i < w + 1; i++) {
-				printf("%d", map[i][j]);
-			}
-			printf("\n");
-		}
-		*/
 		for(i = 1; i <= w; i++) {
 			local = i;
 			for(j = 0; j < h; j++) {
