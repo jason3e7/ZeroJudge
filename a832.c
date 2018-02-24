@@ -13,24 +13,22 @@
 
 #include <stdio.h>
 
-int n, num[1001], tmp[1001];
+int n, num[1001];
 
 int f(int k) {
-	int i, j, temp;
+	int i, j, temp, tNum;
 	for(i = 1; i <= n; i += k) {
 		temp = i + k - 1;
 		if(temp > n) {
 			temp = n;
 		}
-		tmp[temp] = num[i]; 
+		tNum = num[i]; 
 		for(j = i; j < temp; j++) {
-			tmp[j] = num[j + 1];
+			num[j] = num[j + 1];
 		}
+		num[temp] = tNum;
 	}
 
-	for(i = 1; i <= n; i++) {
-		num[i] = tmp[i];
-	}
 	return 0;
 }
 
