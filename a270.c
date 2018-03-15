@@ -2,7 +2,7 @@
   * @file a270.c
   * @author Jason3e7
   * @algorithm basic
-  * @date 201803141035
+  * @date 201803151035
   */
  
 #include <stdio.h>
